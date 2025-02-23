@@ -1,1 +1,137 @@
+header{
+    display: flex;
+    
+    align-items: center;
+    justify-content: space-between;
+    
+    background: #535151;
+    width: 100vw;
+    height: 4vw;
+    
+    }
+    
+    
+#logo_box{
+    display: flex;
+    margin-right: 1%;
+    margin-top: 0.5vw;
+    margin-left: 0.5vw;
+        
+    }
+#logo_img{
+        width: 5vw;
+        height: 4vw;
+    }
+.logo_name{
+    font-family: "Baumans", serif;
+    font-weight: 600;
+    font-style: normal;
+    color: #fae5d3;
+    font-size: 2vw;
+    text-decoration: none;
+    margin-top: 0.8vw;
+        
+    }
+    
+    
+    
+.search_bar{
+    width: max-content;
+    display: flex;
+    align-items: center;
+    padding: 0.5vw 0.2vw 0.5vw;
+    border-radius: 2vw;
+    background: #fbd5b4;
+    transition: box-shadow 0.25s;
+    }
+.search_bar:focus-within{
+    background: #f3c6a0;
+    box-shadow: 0 0 1vw rgb(0, 0, 0, 0.8);
+    }
+.search_input{
+    font-size: 1vw;
+    
+    outline: none;
+    border: none;
+    background: transparent;
+    width: 24vw;
+    }
+.search_input::placeholder{
+    color: rgb(0, 0, 0, 0.3);
+    }
+.search_icon{
+    width: 3vw;
+    height: 1.5vw;
+        
+    }
+    
+   
+    
 
+
+
+
+
+.icons{
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-right: 0.3vw;
+}
+.icon{
+    width: 2.2vw;
+    margin: 0.4vw;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  .dropdown {
+    position: relative;
+    display: inline-block;
+    
+    
+  }
+  
+  
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #535151;
+    width: 4vw;
+    z-index: 1;
+    text-align: center;
+    transition: box-shadow 0.25s;
+  }
+  
+  .dropdown-content a {
+    color: #fae5d3;
+    padding: 0.3vw 0vw 0.3vw;
+    text-decoration: none;
+    display: block;
+    font-size: 0.8vw;
+    font-family: "Baumans", serif;
+  }
+  
+  
+  .dropdown-content a:hover {
+    background-color: #b29d9d;
+}
+  
+  
+  .dropdown:hover .dropdown-content {
+    display: block;
+    box-shadow: 0 0 1vw rgb(0, 0, 0, 0.5);
+    
+}
