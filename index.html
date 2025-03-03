@@ -140,10 +140,173 @@
 
 
     <main>
+        <!-- трета секиця с всички книги -->
+        <div class="book_container_section">
         
-        <div class="main_page_box">
+            <!-- Лявата колона с филтри (Grid area: side) -->
+            <div class="side">
+                    <div class="filters-container">
+                        <div class="filters-promotions-scroll">
+                            <h3>Поредица</h3>
+                            <hr style="color: yellow; width: 80%;" />
+                            <div class="scrollable-list" style="max-height: 200px; overflow-y: auto;">
+                                <ul style="list-style-type: none; margin: 0; padding: 0;">
+                                    <li>
+                                        <label>
+                                            <input type="checkbox" name="series[]" value="365 дни">
+                                            365 дни (3)
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label>
+                                            <input type="checkbox" name="series[]" value="Briar U">
+                                            Briar U (3)
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label>
+                                            <input type="checkbox" name="series[]" value="Cat and Mouse">
+                                            Cat and Mouse (2)
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label>
+                                            <input type="checkbox" name="series[]" value="Culpables">
+                                            Culpables (2)
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label>
+                                            <input type="checkbox" name="series[]" value="Devil's Night">
+                                            Devil's Night (4)
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label>
+                                            <input type="checkbox" name="series[]" value="Dreamland Billionaires">
+                                            Dreamland Billionaires (2)
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label>
+                                            <input type="checkbox" name="series[]" value="Infinity Blade">
+                                            Infinity Blade (2)
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label>
+                                            <input type="checkbox" name="series[]" value="365 дни">
+                                            365 дни (3)
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label>
+                                            <input type="checkbox" name="series[]" value="365 дни">
+                                            365 дни (3)
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label>
+                                            <input type="checkbox" name="series[]" value="365 дни">
+                                            365 дни (3)
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label>
+                                            <input type="checkbox" name="series[]" value="365 дни">
+                                            365 дни (3)
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label>
+                                            <input type="checkbox" name="series[]" value="365 дни">
+                                            365 дни (3)
+                                        </label>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="filters-genres-scroll">
+                            <h3>Жанрове</h3>
+                            <hr style="color: yellow;" />
+                            <div class="scrollable-list">
+                                <ul>
+                                    <li>
+                                        <label>
+                                            <input type="checkbox" name="series[]" value="Комедия">
+                                            Комедия (3)
+                                        </label>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            
+            <!-- Горен десен ъгъл: Сортиране (Grid area: sort_1) -->
+            <div class="sort_1">
+                <label for="sortBy">Подреди по:</label>
+                <select name="sortBy" id="sortBy">
+                <option value="newest">Най-нови</option>
+                <option value="lowestPrice">Най-ниска цена</option>
+                <option value="highestPrice">Най-висока цена</option>
+                <option value="bestSelling">Най-продавани</option>
+                </select>
+            </div>
 
+            <!-- Горен десен ъгъл: Покажи по (Grid area: sort_2) -->
+            <div class="sort_2">
+                <label for="itemsPerPage">Покажи по:</label>
+                <select name="itemsPerPage" id="itemsPerPage">
+                <option value="12">12</option>
+                <option value="24">24</option>
+                <option value="60">60</option>
+                <option value="all">Всички</option>
+                </select>
+            </div>
 
+            <!-- Тук започват различните книги (Grid area: article-0, article-1, ... ) -->
+            <div class="article-0">
+                <div class="book-item">
+                    <div class="book-cover">
+                        <img src="kniga.jpg" alt="Джиду Кришнамурти: Живот в безгранично" />
+                    </div>
+                    <div class="book-details">
+                        <div class="book-info">
+                            <div class="book-rating">
+                                ⭐⭐⭐⭐☆
+                            </div>
+                            <div class="book-icons">
+                                ❤️ 🛒
+                            </div>
+                        </div>
+                        <h4 class="book-title">Джиду Кришнамурти: Живот в безгранично</h4>
+                        <div class="book-author">Автор: Рошен Далал</div>
+                        <div class="book-price">26.00 лв.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="article-1">
+                <div class="book-item">
+                <div class="book-cover">
+                    <img src="kniga.jpg" alt="Борба за щастие (Е-книга)" />
+                </div>
+                <div class="book-details">
+                    <div class="book-info">
+                        <div class="book-rating">
+                            ⭐⭐⭐⭐☆
+                        </div>
+                        <div class="book-icons">
+                            ❤️ 🛒
+                        </div>
+                    </div>
+                    <h4 class="book-title">Борба за щастие (Е-книгa)</h4>
+                    <div class="book-author">Издателство: Izdavam.com</div>
+                    <div class="book-price">24.46 лв.</div>
+                </div>
+                </div>
+            </div>
         </div>
 
     </main>
