@@ -1,0 +1,238 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+::-webkit-scrollbar{
+  width: 0.9vw;
+  padding-left: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background:#fae5d3;
+}
+::-webkit-scrollbar-thumb {
+  background: #ff6b00;
+  border-radius: 100vh;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #de6b19;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #fdfdfd;
+  color: #333;
+}
+
+.banner_section{
+    padding: 1vw;
+    outline: 2px solid red;
+}
+#first_container, #second_container, #third_container {
+    display: inline-flex;
+    margin: 1vh;
+    padding: 10vh 10vw;
+    outline: 2px solid green;
+    border-radius: 5px ;
+
+}
+
+.slider_section {
+    display: block;
+    flex-direction: column; 
+
+}
+
+.slider_section div {
+    background: lightblue;
+    margin: 4vh 15vh;
+    padding: 8vh 15vh;
+}
+
+
+.book_container_section {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 10px;
+  display: grid;
+  grid-template-areas:
+    "side sort_1 sort_2"
+    "side article-0 article-1" 
+    "side article-2 article-3"
+    "side article-4 article-5"
+    "side article-6 article-7";
+  
+  grid-template-columns: 260px auto auto;
+  grid-template-rows: 60px auto auto auto auto;
+  gap: 1rem;
+  padding: 1rem 1rem 1rem 0;
+  max-width: 100%;
+  margin: 0 auto;
+  background-color: #fae5d3;
+  border-radius: 4px;
+}
+
+.side {
+  grid-area: side;
+  background-color: #d0cfcf; 
+  padding: 1rem;
+  border-right: 1px solid #ddd;
+  border-radius: 0 25px 25px 0;
+}
+
+
+.sort_1 {
+  grid-area: sort_1;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding-left: 1rem;
+}
+
+.sort_2 {
+  grid-area: sort_2;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.5rem;
+  padding-right: 1rem; 
+}
+
+.filters-container h3 {
+  margin-bottom: 0.5rem;
+  text-align: center;
+
+}
+
+.filters-container ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.filters-container hr {
+  border: 1px solid #ffd700;
+  width: 50%;
+  margin: 0 auto;
+}
+
+.scrollable-list {
+  max-height: 200px;
+  overflow-y: auto;
+  margin-top: 10px;
+}
+
+
+.article-0 {grid-area: article-0;}
+.article-1 {grid-area: article-1;}
+.article-2 {grid-area: article-2;}
+.article-3 {grid-area: article-3;}
+.article-4 {grid-area: article-4;}
+.article-5 {grid-area: article-5;}
+.article-6 {grid-area: article-6;}
+.article-7 {grid-area: article-7;}
+
+
+.book-item {
+  width: 100%;
+  max-width: 250px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 1rem;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.book-cover img {
+  max-width: 100%;
+  height: auto;
+  margin: 0;
+  padding: 0;
+  display: block;
+  border-radius: 4px;
+}
+.book-cover {
+  align-items: center;
+}
+
+.book-title {
+  margin: 7% 0 15%;
+  font-size: 16px;
+  font-weight: bold;;
+  white-space: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  max-width: 90%;
+  word-wrap: break-word;
+  
+}
+
+.book-author {
+  color: #555;
+  margin-bottom: 1rem;
+}
+
+.book-price {
+  font-weight: bold;
+  color: #e74c3c;
+  margin-bottom: 0.5rem;
+}
+
+.book-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 5px;
+  width: 100%;
+}
+
+.book-rating {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.book-icons {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+@media (max-width: 768px) {
+  .book_container_section {
+    grid-template-columns: 1fr;
+
+    grid-template-rows: auto auto auto auto auto auto auto auto;
+    grid-template-areas:
+      "side"
+      "sort_1"
+      "sort_2"
+      "article-0"
+      "article-1"
+      "article-2"
+      "article-3"
+      "article-4"
+      "article-5"
+      "article-6"
+      "article-7";
+  }
+  
+  .side {
+    border-right: none;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .sort_2 {
+    justify-content: flex-start;
+    padding-left: 1rem;
+  }
+}
