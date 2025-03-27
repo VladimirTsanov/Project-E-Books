@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="{% static 'style_main.css'%}">
     <link rel="stylesheet" href="{% static 'style_logi_register.css'%}">
     <link rel="stylesheet" href="{% static 'FooterStyles.css'%}">
-
+    <link rel="stylesheet" href="{% static 'style_productDetail.css'%}">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,7 +26,7 @@
         <!-- Логото в header -->
         <div id="logo_box">
             <img id="logo_img" src="{% static '\images\primerno_logo2-removebg-preview.png' %}" alt="website_book_logo">
-            <a class="logo_name" href="index.html">E-BOOKS</a>
+            <a class="logo_name" href="{% url 'home' %}">E-BOOKS</a>
         </div>
         <!-- Search Bar -->
         <div class="search_bar">
@@ -160,6 +160,9 @@
           </footer>
     </footer>
 
+    <!-- JQuery за продуктова страница-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" charset="utf-8"></script> 
     <script src="{% static 'script_log_regis.js' %}"></script>
+    <script src="{% static 'script.js' %}"></script>
 </body>
 </html>

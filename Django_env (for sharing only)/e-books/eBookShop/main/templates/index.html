@@ -2,7 +2,7 @@
 {% block content %}
 <main>
     <!-- първа секция с 2-3 банера (избрани книги) -->
-    <div class="banner_section">
+    <div class="banner_section" >
         <div id="first_container" style="color: aqua;">First container here</div>
         <div id="second_container">Second container here</div>
         <div id="third_container">Third Container here</div>
@@ -21,43 +21,60 @@
     
         <!-- Лявата колона с филтри (Grid area: side) -->
         <div class="side">
-                <div class="filters-container">
-                    <div class="filters-promotions-scroll">
-                        <h3>Поредица</h3>
-                        <hr style="color: yellow; width: 80%;" />
-                        <div class="scrollable-list" style="max-height: 200px; overflow-y: auto;">
-                            <ul style="list-style-type: none; margin: 0; padding: 0;">
-                                <li>
-                                    <label>
-                                        <input type="checkbox" name="series[]" value="365 дни">
-                                        Проба (3)
-                                    </label>
-                                </li>
-                                <li>
-                                    <label>
-                                        <input type="checkbox" name="series[]" value="Briar U">
-                                        Проба (3)
-                                    </label>
-                                </li>
-                                
-                            </ul>
+            <div class="filters-container">
+                <div class="col-md-3">
+                    <h3 class="mb-4 border-bottom pb-1">Filters</h3>
+                    
+                    <!-- Filter 1 -->
+                    <div class="card mb-4">
+                        <h6 class="card-header">Colors</h6>
+                        <div class="list-group list-group-flush">
+                            {% for color in colors %}
+                            <li class="list-group-item" data-count="{{ color.product_count }}">
+                                <input type="checkbox" />&nbsp;
+                                {{ color.title }} <span>({{ color.product_count }})</span>
+                            </li>
+                            {% endfor %}
                         </div>
                     </div>
-                    <div class="filters-genres-scroll">
-                        <h3>Жанрове</h3>
-                        <hr style="color: yellow;" />
-                        <div class="scrollable-list">
-                            <ul>
-                                <li>
-                                    <label>
-                                        <input type="checkbox" name="series[]" value="Комедия">
-                                        Комедия (3)
-                                    </label>
-                                </li>
-                            </ul>
+                    <!-- Filter 2 -->
+                    <div class="card mb-4">
+                        <h6 class="card-header">Categories</h6>
+                        <div class="list-group list-group-flush">
+                            {% for cat in cats %}
+                            <li class="list-group-item" data-count="{{ cat.product_count }}">
+                                <input type="checkbox" />&nbsp;
+                                {{ cat.title }} <span>({{ cat.product_count }})</span>
+                            </li>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <!-- Filter 3 -->
+                    <div class="card mb-4">
+                        <h6 class="card-header">Brands</h6>
+                        <div class="list-group list-group-flush">
+                            {% for brand in brands %}
+                            <li class="list-group-item" data-count="{{ brand.product_count }}">
+                                <input type="checkbox" />&nbsp;
+                                {{ brand.title }} <span>({{ brand.product_count }})</span>
+                            </li>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <!-- Filter 4 -->
+                    <div class="card mb-4">
+                        <h6 class="card-header">Sizes</h6>
+                        <div class="list-group list-group-flush">
+                            {% for size in sizes %}
+                            <li class="list-group-item" data-count="{{ size.product_count }}">
+                                <input type="checkbox" />&nbsp;
+                                {{ size.title }} <span>({{ size.product_count }})</span>
+                            </li>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>
+            </div>
         </div>
         
         <!-- Горен десен ъгъл: Сортиране (Grid area: sort_1) -->
@@ -84,29 +101,52 @@
 
         <!-- Тук започват различните книги -->
         {% for product in products %}
-            <div class="book-item">
-                <div class="book-cover">
-                    <img src="{{ product.image.url }}" alt="{{ product.title }}">
-                </div>
-                <div class="book-details">
-                    <div class="book-info">
-                        <div class="book-rating">
-                            ⭐⭐⭐⭐☆
-                        </div>
-                        <div class="book-icons">
-                            ❤️ 🛒
-                        </div>
+            <div class="book-item article-{{ forloop.counter0 }}"  onclick="navigateToPage('{% url 'product_detail' product.slug product.id %}')">
+                    <div class="book-cover">
+                        <img src="{{ product.image.url }}" alt="{{ product.title }}">
                     </div>
-                    <h4 class="book-title">{{ product.title }}</h4>
-                    <div class="book-author">Издателство: {{ product.brand }}</div>
-                    <div class="book-price">Цена: {% for attribute in product.productattribute_set.all %}
-                        {{ attribute.price }} лв.
-                    {% endfor %}</div>
-                </div>
+                    <div class="book-details">
+                            <div class="book-info">
+                                <div class="book-rating">
+                                    ⭐⭐⭐⭐☆
+                                </div>
+                                <div class="book-icons">
+                                    ❤️ 🛒
+                                </div>
+                            </div>
+                            <h4 class="book-title">{{ product.title }}</h4>
+                            <div class="book-author">Издателство: {{ product.brand }}</div>
+                            <div class="book-price">Цена: {{ product.price }} лв.</div>
+                    </div>
             </div>
         {% endfor %}
     </div>
+    <p class="my-4 text-center"><button id="loadMore" data-total="{{total_data}}" data-limit="3" class="btn btn-dark btn-sm">Load More <i class="fa fa-sync load-more-icon"></i></button></p>
 
+    <!-- четвърта секция с отличаващи се книги  -->
+    <div class="featured-section">
+        <h3 style="color: white;">Featured Books:</h3>
+        {% for product in featured_products %}
+            <div class="book-item article-{{ forloop.counter0 }}" onclick="navigateToPage('{% url 'product_detail' product.slug product.id %}')">
+                    <div class="book-cover">
+                        <img src="{{ product.image.url }}" alt="{{ product.title }}">
+                    </div>
+                    <div class="book-details">
+                        <div class="book-info">
+                            <div class="book-rating">
+                                ⭐⭐⭐⭐☆
+                            </div>
+                            <div class="book-icons">
+                                ❤️ 🛒
+                            </div>
+                        </div>
+                        <h4 class="book-title">{{ product.title }}</h4>
+                        <div class="book-author">Издателство: {{ product.brand }}</div>
+                        <div class="book-price">Цена: {{ product.price }} лв.</div>
+                    </div>
+            </div>
+        {% endfor %}
+    </div>
     
 
 </main>
