@@ -1,0 +1,255 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    display: flex;
+    flex-wrap: nowrap;
+    max-width: 95%;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    overflow-x: auto;
+}
+
+.left-section {
+    flex: 1;
+    flex-shrink: 0;
+    padding: 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 30%;
+    min-width: 250px;
+}
+
+.left-section h1 {
+    font-size: clamp(1.5rem, 3vw, 2.2rem);
+    margin-bottom: 20px;
+    color: #2563eb;
+    line-height: 1.2;
+}
+
+.book-cover {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.book-cover img {
+    width: 80%;
+    max-width: 250px;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.stars {
+    margin: 20px 0;
+    color: #f59e0b;
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+}
+
+.stars i {
+    font-size: 1.25rem;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 25px;
+    width: 100%;
+}
+
+.buttons button {
+    padding: 12px 15px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.buttons button:first-child {
+    background-color: #10b981;
+    color: white;
+}
+
+.buttons button:first-child:hover {
+    background-color: #059669;
+}
+
+.buttons button:last-child {
+    background-color: #2563eb;
+    color: white;
+}
+
+.buttons button:last-child:hover {
+    background-color: #1d4ed8;
+}
+
+.right-section {
+    flex: 2;
+    padding: 20px;
+    width: 70%;
+    min-width: 300px;
+    overflow-y: auto;
+}
+
+.right-section h2 {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    margin-bottom: 20px;
+    color: #2563eb;
+    line-height: 1.2;
+}
+
+.right-section p {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    margin-bottom: 25px;
+    color: #4b5563;
+}
+
+.right-section h3 {
+    font-size: 1.3rem;
+    margin: 30px 0 15px;
+    color: #111827;
+    border-bottom: 2px solid #e5e7eb;
+    padding-bottom: 8px;
+}
+
+.product-Featured-section {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px;
+    width: 95%;
+    max-width: 1400px;
+    margin: 30px auto;
+    padding: 25px;
+    border-radius: 12px;
+    background-color: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    overflow-x: auto;
+}
+
+.product-Featured-section h3 {
+    width: 100%;
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: white;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.book-item {
+    flex: 0 0 auto;
+    width: 220px;
+    background-color: rgba(30, 30, 30, 0.8);
+    border-radius: 8px;
+    padding: 15px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+}
+
+.book-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.book-cover img {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+    object-fit: cover;
+    aspect-ratio: 2/3;
+}
+
+.book-details {
+    margin-top: 10px;
+}
+
+.book-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+.book-title {
+    margin: 5px 0;
+    font-size: 16px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: white;
+}
+
+.book-author,
+.book-price {
+    font-size: 14px;
+    color: #ccc;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+        margin: 15px;
+    }
+
+    .left-section {
+        padding: 15px 10px;
+    }
+
+    .right-section {
+        padding: 15px 10px;
+    }
+
+    .book-cover img {
+        width: 90%;
+    }
+
+    .buttons button {
+        padding: 10px;
+        font-size: 0.9rem;
+    }
+
+    .product-Featured-section {
+        padding: 15px;
+        flex-wrap: nowrap;
+    }
+
+    .book-item {
+        width: 180px;
+    }
+}
+
+@media (max-width: 480px) {
+    .left-section h1 {
+        font-size: 1.3rem;
+    }
+
+    .right-section h2 {
+        font-size: 1.3rem;
+    }
+
+    .right-section p {
+        font-size: 0.95rem;
+    }
+}

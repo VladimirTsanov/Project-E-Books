@@ -3,25 +3,28 @@
   padding: 0;
   box-sizing: border-box;
 }
-::-webkit-scrollbar{
+
+::-webkit-scrollbar {
   width: 0.9vw;
   padding-left: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background:#fae5d3;
+  background: #fae5d3;
 }
+
 ::-webkit-scrollbar-thumb {
   background: #ff6b00;
   border-radius: 100vh;
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background: #de6b19;
 }
 
 body {
   font-family: Arial, sans-serif;
-  background-image: linear-gradient(to bottom right, #535151,#70583c);
+  background-image: linear-gradient(to bottom right, #535151, #70583c);
 }
 
 .book_container_section {
@@ -33,7 +36,6 @@ body {
     "side sort_1 sort_2 . ."
     "side article-0 article-1 article-2 article-3"
     "side article-4 article-5 article-6 article-7";
-  
   grid-template-columns: 260px auto auto auto auto;
   grid-template-rows: 60px auto auto;
   gap: 1rem;
@@ -43,15 +45,6 @@ body {
   background-color: #fae5d3;
   border-radius: 4px;
 }
-
-.side {
-  grid-area: side;
-  background-color: #d0cfcf; 
-  padding: 1rem;
-  border-right: 1px solid #ddd;
-  border-radius: 0 25px 25px 0;
-}
-
 
 .sort_1 {
   grid-area: sort_1;
@@ -67,73 +60,181 @@ body {
   align-items: center;
   justify-content: flex-start;
   gap: 0.5rem;
-  padding-right: 1rem; 
+  padding-right: 1rem;
 }
 
-.filters-container {
-  padding: 20px;
+.side {
+  grid-area: side;
+  background-color: #f5f2ea;
+  padding: 1.5rem;
+  border-right: 1px solid #e6e3dc;
+  border-radius: 0 25px 25px 0;
 }
 
-/* Стил за заглавието на филтрите */
-.filters-container h3 {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: #333;
-}
-
-/* Стил за картончетата на филтрите */
 .card {
   border: none;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 0;
+  box-shadow: none;
+  background-color: transparent;
+  margin-bottom: 1.5rem !important;
 }
 
-/* Стил за заглавието на  картончетата на филтрите */
 .card-header {
-  background-color: #007bff;
-  color: white;
-  font-size: 1.1rem;
-  font-weight: 500;
-  border-radius: 8px 8px 0 0;
+  text-align: center;
+  background-color: transparent;
+  color: #000;
+  font-size: 1.2rem;
+  font-weight: 700;
+  border-radius: 0;
+  padding: 0.5rem 0;
+  border: none;
+  border-bottom: 2px solid #ffd700;
+  margin-bottom: 0.5rem;
+}
+
+.list-group {
+  border: none;
+  background-color: transparent;
+}
+
+.list-group-flush {
+  background-color: transparent;
 }
 
 .list-group-item {
   border: none;
-  padding: 10px 15px;
-  font-size: 1rem;
-  color: #555;
+  padding: 0.5rem 0;
+  font-size: 0.9rem;
+  color: #333;
   display: flex;
   align-items: center;
+  background-color: transparent;
 }
-
 
 .list-group-item span {
   margin-left: auto;
   font-weight: 600;
-  color: #007bff;
+  color: #666;
 }
-
 
 .list-group-item input[type="checkbox"] {
-  margin-right: 10px;
   cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  background-color: white;
+  margin-right: 8px;
 }
 
+.list-group-item input[type="checkbox"]:checked {
+  background-color: #ff7700;
+  position: relative;
+}
 
-.list-group-item:hover {
-  background-color: #f1f1f1;
+.list-group-item input[type="checkbox"]:checked::after {
+  content: "✓";
+  position: absolute;
+  top: -2px;
+  left: 3px;
+  color: white;
+}
+
+.price-range {
+  width: 100%;
+  margin: 1rem 0;
+  padding: 0 2px;
+}
+
+.price-range input[type="range"] {
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: #ddd;
+  outline: none;
+  /* -webkit-appearance: none; */
+}
+
+.price-range input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #fff;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.slider-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.min-value,
+.max-value {
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.price-controls {
+  display: flex;
+  align-items: center;
+  margin-top: 0.5rem;
+  gap: 3px;
+}
+
+.price-controls input {
+  width: 80%;
+  padding: 0.3rem;
+  border: 1px solid #ddd;
   border-radius: 4px;
 }
 
-.article-0 {grid-area: article-0;}
-.article-1 {grid-area: article-1;}
-.article-2 {grid-area: article-2;}
-.article-3 {grid-area: article-3;}
-.article-4 {grid-area: article-4;}
-.article-5 {grid-area: article-5;}
-.article-6 {grid-area: article-6;}
-.article-7 {grid-area: article-7;}
+.price-controls button {
+  background-color: #666;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 0.3rem 0.5rem;
+  margin-left: 0.5rem;
+  cursor: pointer;
+}
 
+.article-0 {
+  grid-area: article-0;
+}
+
+.article-1 {
+  grid-area: article-1;
+}
+
+.article-2 {
+  grid-area: article-2;
+}
+
+.article-3 {
+  grid-area: article-3;
+}
+
+.article-4 {
+  grid-area: article-4;
+}
+
+.article-5 {
+  grid-area: article-5;
+}
+
+.article-6 {
+  grid-area: article-6;
+}
+
+.article-7 {
+  grid-area: article-7;
+}
 
 .book-item {
   width: 100%;
@@ -147,7 +248,7 @@ body {
   border: 1px solid #ddd;
   border-radius: 4px;
   overflow: hidden;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .book-cover img {
@@ -158,6 +259,7 @@ body {
   display: block;
   border-radius: 4px;
 }
+
 .book-cover {
   align-items: center;
 }
@@ -165,7 +267,8 @@ body {
 .book-title {
   margin: 7% 0 15%;
   font-size: 16px;
-  font-weight: bold;;
+  font-weight: bold;
+  ;
   white-space: normal;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -173,7 +276,6 @@ body {
   -webkit-box-orient: vertical;
   max-width: 90%;
   word-wrap: break-word;
-  
 }
 
 .book-author {
@@ -210,7 +312,6 @@ body {
 @media (max-width: 768px) {
   .book_container_section {
     grid-template-columns: 1fr;
-
     grid-template-rows: auto auto auto auto auto auto auto auto;
     grid-template-areas:
       "side"
@@ -225,16 +326,14 @@ body {
       "article-6"
       "article-7";
   }
-  
+
   .side {
     border-right: none;
     border-bottom: 1px solid #ddd;
   }
-  
+
   .sort_2 {
     justify-content: flex-start;
     padding-left: 1rem;
   }
 }
-
-
