@@ -1,0 +1,16 @@
+{% for product in products %}
+    <div class="book-item" onclick="navigateToPage('{% url 'product_detail' product.slug product.id %}')">
+        <div class="book-cover">
+            <img src="{{ product.image.url }}" alt="{{ product.title }}">
+        </div>
+        <div class="book-details">
+            <div class="book-info">
+                <div class="book-rating">⭐ ⭐ ⭐ ⭐ ☆</div>
+                <div class="book-icons">❤️ 🛒</div>
+            </div>
+            <h4 class="book-title">{{ product.title }}</h4>
+            <div class="book-author">Издателство: {{ product.brand }}</div>
+            <div class="book-price">Цена: {{ product.price }} лв.</div>
+        </div>
+    </div>
+{% endfor %}

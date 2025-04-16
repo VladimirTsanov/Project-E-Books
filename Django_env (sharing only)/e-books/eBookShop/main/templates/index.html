@@ -2,170 +2,208 @@
 {% block content %}
 <main>
     <!-- първа секция с 2-3 банера (избрани книги) -->
-    <div class="banner_section" >
-        <div id="first_container" style="color: aqua;">First container here</div>
-        <div id="second_container">Second container here</div>
-        <div id="third_container">Third Container here</div>
-    </div>
+    {% if not is_filtered %}
+        <div class="banner_section" >
+            <div id="first_container" style="color: aqua;">First container here</div>
+            <div id="second_container">Second container here</div>
+            <div id="third_container">Third Container here</div>
+        </div>
 
-    <!-- втора секция с 2-3 слайдера -->
-    <div class="slider_section">
-        <div id="first_slider">Текст 1</div>
-        <div id="second_slider">Текст 2</div>
-        <div id="third_slider">Текст 3</div>
-    </div>
-    <hr style="width: 100vw;" color="green" />
+        <!-- втора секция с 2-3 слайдера -->
+        <div class="slider_section">
+            <div id="first_slider">Текст 1</div>
+            <div id="second_slider">Текст 2</div>
+            <div id="third_slider">Текст 3</div>
+        </div>
+    {% endif %}
 
     <!-- трета секиця с всички книги -->
     <div class="book_container_section">
-    
+
         <!-- Лявата колона с филтри (Grid area: side) -->
         <div class="side">
-            <div class="filters-container">
-                <div class="col-md-3">
-                    
-                    <!-- Filter 1 -->
-                    <div class="card mb-4">
-                        <h6 class="card-header">Colors</h6>
-                        <div class="list-group list-group-flush">
-                            {% for color in colors %}
-                            <li class="list-group-item" data-filter="color" data-count="{{ color.product_count }}">
-                                <input class="filter-checkbox" type="checkbox" />&nbsp;
-                                {{ color.title }} <span>({{ color.product_count }})</span>
-                            </li>
-                            {% endfor %}
+            <form method="GET" id="filter-form" action="{% url 'home' %}">
+                <div class="filters-container">
+                    <div class="col-md-3">
+
+                        <!-- Filter: Genres -->
+                        <div class="card mb-4">
+                            <h6 class="card-header">Жанрове</h6>
+                            <div class="list-group list-group-flush">
+                                {% for genre in genres %}
+                                    <li class="list-group-item">
+                                        <input type="checkbox" name="genre" value="{{ genre.id }}"
+                                            onchange="this.form.submit();"
+                                            {% if genre.id in selected_genres %}checked{% endif %}>
+                                        {{ genre.title }} <span>({{ genre.product_count }})</span>
+                                    </li>
+                                {% endfor %}
+                            </div>
                         </div>
-                    </div>
-                    <!-- Filter 2 -->
-                    <div class="card mb-4">
-                        <h6 class="card-header">Categories</h6>
-                        <div class="list-group list-group-flush">
-                            {% for cat in cats %}
-                            <li class="list-group-item" data-filter="category" data-count="{{ cat.product_count }}">
-                                <input class="filter-checkbox" type="checkbox" />&nbsp;
-                                {{ cat.title }} <span>({{ cat.product_count }})</span>
-                            </li>
-                            {% endfor %}
+
+                        <!-- Filter: Authors -->
+                        <div class="card mb-4">
+                            <h6 class="card-header">Автори</h6>
+                            <div class="list-group list-group-flush">
+                                {% for author in authors %}
+                                    <li class="list-group-item">
+                                        <input type="checkbox" name="author" value="{{ author.id }}"
+                                            onchange="this.form.submit();"
+                                            {% if author.id in selected_author %}checked{% endif %}>
+                                        {{ author.name }} <span>({{ author.product_count }})</span>
+                                    </li>
+                                {% endfor %}
+                            </div>
                         </div>
-                    </div>
-                    <!-- Filter 3 -->
-                    <div class="card mb-4">
-                        <h6 class="card-header">Brands</h6>
-                        <div class="list-group list-group-flush">
-                            {% for brand in brands %}
-                            <li class="list-group-item" data-filter="brand" data-count="{{ brand.product_count }}">
-                                <input class="filter-checkbox" type="checkbox" />&nbsp;
-                                {{ brand.title }} <span>({{ brand.product_count }})</span>
-                            </li>
-                            {% endfor %}
+
+                        <!-- Filter: Featured -->
+                        <div class="card mb-4">
+                            <h6 class="card-header">Отличителни</h6>
+                            <div class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    <input type="checkbox" name="featured" value="true"
+                                            onchange="this.form.submit();"
+                                            {% if show_only_featured %}checked{% endif %}>
+                                    Отличителни книги <span>({{ featured_counter }})</span>
+                                </li>
+                            </div>
                         </div>
-                    </div>
-                    <!-- Filter 4 -->
-                    <div class="card mb-4">
-                        <h6 class="card-header">Sizes</h6>
-                        <div class="list-group list-group-flush">
-                            {% for size in sizes %}
-                            <li class="list-group-item" data-filter="size" data-count="{{ size.product_count }}">
-                                <input class="filter-checkbox"  type="checkbox" />&nbsp;
-                                {{ size.title }} <span>({{ size.product_count }})</span>
-                            </li>
-                            {% endfor %}
-                        </div>
-                    </div>
-                    <!-- For the price slider section -->
-                    <div class="card mb-4">
-                        <h6 class="card-header">Цена</h6>
-                        <div class="list-group list-group-flush">
-                            <div class="price-range p-3">
-                                <div class="slider-labels">
-                                    <span class="min-value">0 лв.</span>
-                                    <span class="max-value">100 лв.</span>
-                                </div>
-                                <input type="range" min="0" max="100" value="50">
-                                <div class="price-controls mt-2">
-                                    <input type="text" placeholder="0">
-                                    <input type="text" placeholder="0">
-                                    <button>→</button>
+
+                        <!-- Filter: Price Slider -->
+                        <div class="card mb-4">
+                            <h6 class="card-header">Цена</h6>
+                            <div class="list-group list-group-flush">
+                                <div class="price-range p-3">
+                                    <!-- Показване на етикети за текущите стойности -->
+                                    <div class="slider-labels">
+                                        <span class="price" id="min-price-label">
+                                            {{ selected_min_price|default:all_min_price|floatformat:0 }} лв.
+                                        </span>
+                                        <span class="price" id="max-price-label">
+                                            {{ selected_max_price|default:all_max_price|floatformat:0 }} лв.
+                                        </span>
+                                    </div>
+
+                                    <!-- Слайдерът за ценови диапазон -->
+                                    <div class="Slider"><div class="progress"></div></div>
+
+                                    <!-- Диапазон с два плъзгача (range inputs) -->
+                                    <div class="range-input">
+                                        <input type="range" class="range-min" id="range-min"
+                                            min="{{ all_min_price }}" max="{{ all_max_price }}"
+                                            value="{{ selected_min_price|default:all_min_price }}" step="1">
+
+                                        <input type="range" class="range-max" id="range-max"
+                                            min="{{ all_min_price }}" max="{{ all_max_price }}"
+                                            value="{{ selected_max_price|default:all_min_price }}" step="1">
+                                    </div>
+
+                                    <!-- Полета за ръчно въвеждане на цена -->
+                                    <div class="price-controls mt-2">
+                                        <input type="number" name="min_price" class="input-min" id="min-price-text"
+                                            min="{{ all_min_price }}" max="{{ all_max_price }}"
+                                            value="{{ selected_min_price|default:all_min_price }}" step="0.01"
+                                            placeholder="Минимум" inputmode="decimal">
+
+                                        <input type="number" name="max_price" class="input-max" id="max-price-text"
+                                            min="{{ all_min_price }}" max="{{ all_max_price }}"
+                                            value="{{ selected_max_price|default:all_min_price }}" step="0.01"
+                                            placeholder="Максимум" inputmode="decimal">
+
+                                        <button type="submit">→</button>
+                                    </div>
+
+                                    
+                                    {% for color in selected_colors %}
+                                        <input type="hidden" name="color" value="{{ color }}">
+                                    {% endfor %}
+                                    {% for brand in selected_brands %}
+                                        <input type="hidden" name="brand" value="{{ brand }}">
+                                    {% endfor %}
+                                    {% for cat in selected_categories %}
+                                        <input type="hidden" name="category" value="{{ cat }}">
+                                    {% endfor %}
+                                    {% for size in selected_sizes %}
+                                        <input type="hidden" name="size" value="{{ size }}">
+                                    {% endfor %}
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
+                        {% if is_filtered %}
+                            <a href="{% url 'home' %}" class="reset-button">Изчисти филтрите</a>
+                        {% endif %}
+                        {% if no_results %}
+                            <script>
+                                window.addEventListener("DOMContentLoaded", function() {
+                                    alert("Няма намерени продукти! Ценовият филтър ще бъде нулиран.");
+                                    window.location.href = "/";
+                                });
+                            </script>
+                        {% endif %}
+
+
+                    </div> <!-- col-md-3 -->
+                </div> <!-- filters-container -->
+            </form>
+        </div> <!-- side -->
+
+        <div class="sort-wrapper">
+            <!-- Горен десен ъгъл: Сортиране -->
+            <div class="sort_1">
+                <label for="sortBy">Подреди по:</label>
+                <select name="sortBy" id="sortBy" onchange="this.form.submit();">
+                    <option value="newest" {% if request.GET.sortBy == 'newest' %}selected{% endif %}>Най-нови</option>
+                    <option value="lowestPrice" {% if request.GET.sortBy == 'lowestPrice' %}selected{% endif %}>Най-ниска цена</option>
+                    <option value="highestPrice" {% if request.GET.sortBy == 'highestPrice' %}selected{% endif %}>Най-висока цена</option>
+                    <option value="bestSelling" {% if request.GET.sortBy == 'bestSelling' %}selected{% endif %}>Най-продавани</option>
+                </select>
+            </div>
+            <!-- Горен десен ъгъл: Покажи по -->
+            <div class="sort_2">
+                <label for="itemsPerPage">Покажи по:</label>
+                <select name="itemsPerPage" id="itemsPerPage" onchange="this.form.submit();">
+                    <option value="12" {% if request.GET.itemsPerPage == '12' %}selected{% endif %}>12</option>
+                    <option value="24" {% if request.GET.itemsPerPage == '24' %}selected{% endif %}>24</option>
+                    <option value="60" {% if request.GET.itemsPerPage == '60' %}selected{% endif %}>60</option>
+                </select>
             </div>
         </div>
         
-        <!-- Горен десен ъгъл: Сортиране (Grid area: sort_1) -->
-        <div class="sort_1">
-            <label for="sortBy">Подреди по:</label>
-            <select name="sortBy" id="sortBy">
-            <option value="newest">Най-нови</option>
-            <option value="lowestPrice">Най-ниска цена</option>
-            <option value="highestPrice">Най-висока цена</option>
-            <option value="bestSelling">Най-продавани</option>
-            </select>
-        </div>
 
-        <!-- Горен десен ъгъл: Покажи по (Grid area: sort_2) -->
-        <div class="sort_2">
-            <label for="itemsPerPage">Покажи по:</label>
-            <select name="itemsPerPage" id="itemsPerPage">
-            <option value="12">12</option>
-            <option value="24">24</option>
-            <option value="60">60</option>
-            <option value="all">Всички</option>
-            </select>
-        </div>
-
-        <!-- Тук започват различните книги -->
-        <div class></div>
-        {% for product in products %}
-            <div class="book-item article-{{ forloop.counter0 }}"  onclick="navigateToPage('{% url 'product_detail' product.slug product.id %}')">
+        <div class="products_grid">
+            {% if request.GET.q %}
+                <p>Резултати за: <strong>{{ request.GET.q }}</strong></p>
+            {% endif %}
+            <!-- Тук започват различните книги -->
+            {% for product in products %}
+                <div class="book-item" onclick="location.href='{% url 'product_detail' slug=product.slug id=product.id %}'">
                     <div class="book-cover">
                         <img src="{{ product.image.url }}" alt="{{ product.title }}">
+                        <!-- Add heart icon button -->
+                        <button class="heart-icon" onclick="event.stopPropagation();">♡</button>
                     </div>
                     <div class="book-details">
-                            <div class="book-info">
-                                <div class="book-rating">
-                                    ⭐⭐⭐⭐☆
-                                </div>
-                                <div class="book-icons">
-                                    ❤️ 🛒
-                                </div>
-                            </div>
-                            <h4 class="book-title">{{ product.title }}</h4>
-                            <div class="book-author">Издателство: {{ product.brand }}</div>
-                            <div class="book-price">Цена: {{ product.price }} лв.</div>
-                    </div>
-            </div>
-        {% endfor %}
-    </div>
-    <p class="my-4 text-center"><button id="loadMore" data-total="{{total_data}}" data-limit="3" class="btn btn-dark btn-sm">Load More <i class="fa fa-sync load-more-icon"></i></button></p>
-
-    <!-- четвърта секция с отличаващи се книги  -->
-    <div class="featured-section">
-        <h3 style="color: white;">Featured Books:</h3>
-        {% for product in featured_products %}
-            <div class="book-item article-{{ forloop.counter0 }}" onclick="navigateToPage('{% url 'product_detail' product.slug product.id %}')">
-                    <div class="book-cover">
-                        <img src="{{ product.image.url }}" alt="{{ product.title }}">
-                    </div>
-                    <div class="book-details">
-                        <div class="book-info">
-                            <div class="book-rating">
-                                ⭐⭐⭐⭐☆
-                            </div>
-                            <div class="book-icons">
-                                ❤️ 🛒
-                            </div>
+                        <div class="book-rating">
+                            <!-- Star rating -->
+                            {% for i in "12345" %}
+                                {% if forloop.counter <= 4 %}
+                                    <span class="star">★</span>
+                                {% else %}
+                                    <span class="star-empty">★</span>
+                                {% endif %}
+                            {% endfor %}
                         </div>
                         <h4 class="book-title">{{ product.title }}</h4>
-                        <div class="book-author">Издателство: {{ product.brand }}</div>
-                        <div class="book-price">Цена: {{ product.price }} лв.</div>
+                        <div class="book-price">{{ product.price }} лв.</div>
+                        <!-- Add cart button -->
+                        <button class="add-to-cart-btn" onclick="event.stopPropagation();">Add to Cart</button>
                     </div>
-            </div>
-        {% endfor %}
-    </div>
-    
+                </div>
+            {% endfor %}
+        </div>
+        
+    </div> <!-- book_container_section -->
+
 
 </main>
 {% endblock %}

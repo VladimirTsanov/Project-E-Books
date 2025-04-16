@@ -10,7 +10,8 @@
     <link rel="stylesheet" href="{% static 'style_main.css'%}">
     <link rel="stylesheet" href="{% static 'style_logi_register.css'%}">
     <link rel="stylesheet" href="{% static 'FooterStyles.css'%}">
-    <link rel="stylesheet" href="{% static 'style_productDetail.css'%}">
+    <link rel="stylesheet" href="{% static 'style_productIvan.css'%}">
+    <link rel="stylesheet" href="{% static 'style_sliderRange.css'%}">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -29,10 +30,12 @@
             <a class="logo_name" href="{% url 'home' %}">E-BOOKS</a>
         </div>
         <!-- Search Bar -->
-        <div class="search_bar">
-            <img class="search_icon" src="{% static '\images\search.svg' %}" alt="search_icon_img">
-            <input class="search_input" type="search" placeholder="Search">
-        </div>
+        <form method="get" class="search_bar">
+          <button type="submit" class="search_icon_btn">
+              <img class="search_icon" src="{% static '\images\search.svg' %}" alt="search_icon_img">
+          </button>
+          <input class="search_input" type="search" name="q" value="{{ request.GET.q }}" placeholder="Търси по заглавие...">
+        </form>
         <!-- Иконки бутони в header -->
         <nav>
             <button class="icons"><img class="icon" src="{% static '\images\heart.svg' %}" alt="heart_icon_img"></button>
@@ -164,6 +167,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" charset="utf-8"></script> 
     <script src="{% static 'script_log_regis.js' %}"></script>
     <script src="{% static 'product-filter.js' %}"></script>
+    <script src="{% static 'script_sliderRange.js' %}"></script>
     <script src="{% static 'script.js' %}"></script>
+  
+
+    
 </body>
 </html>

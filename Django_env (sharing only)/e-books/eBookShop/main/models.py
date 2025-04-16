@@ -1,80 +1,58 @@
 from django.db import models
 from django.utils.html import mark_safe
+from django.utils.text import slugify
 
-# Banner
-class Banner(models.Model):
-    img=models.CharField(max_length=200)
-    alt_text=models.CharField(max_length=300)
-    
-    class Meta:
-        verbose_name_plural='1. Banners'
 
-#Category 
-class Category(models.Model):
-    title=models.CharField(max_length=100)
-    image=models.ImageField(upload_to="cat_imgs/")
-    
-    class Meta:
-        verbose_name_plural='2. Categories'
-    
-    def __str__(self):
-        return self.title
-    
-# Brand
-class Brand(models.Model):
-    title=models.CharField(max_length=100)
-    image=models.ImageField(upload_to="brand_imgs/")
-    
-    class Meta:
-        verbose_name_plural='3. Brands'
-    
-    def __str__(self):
-        return self.title    
+# Genre
+class Genre(models.Model):
+    title = models.CharField(max_length=100)
 
-# Color
-class Color(models.Model):
-    title=models.CharField(max_length=100)    
-    color_code=models.CharField(max_length=100)
-    
     class Meta:
-        verbose_name_plural='4. Colors'
-    
-    
-    def __str__(self):
-        return self.title    
+        verbose_name_plural = '1. Genres'
 
-# Size
-class Size(models.Model):
-    title=models.CharField(max_length=100)
-    
-    class Meta:
-        verbose_name_plural='5. Sizes'
-        
     def __str__(self):
         return self.title
 
-# Product Model
+
+# Author
+class Author(models.Model):
+    name = models.CharField(max_length=100)
+
+    class Meta:
+        verbose_name_plural = '2. Authors'
+
+    def __str__(self):
+        return self.name
+
+
+# Product
 class Product(models.Model):
-    title=models.CharField(max_length=200)
+    title = models.CharField(max_length=200)
+    slug = models.SlugField(unique=True)
     image = models.ImageField(upload_to='images/')
-    slug=models.CharField(max_length=400)
-    detail=models.TextField()
-    specs=models.TextField()
-    price=models.PositiveIntegerField(default=0)
+    pdf_file = models.FileField(upload_to='books/pdfs/', null=True)
+    epub_file = models.FileField(upload_to='books/epubs/', null=True)
+    isbn = models.BigIntegerField(default=1234567890123)
+    detail = models.TextField()
+    price = models.DecimalField(max_digits=6, decimal_places=2, default=0.00)
 
-    brand=models.ForeignKey(Brand, on_delete=models.CASCADE)
-    category=models.ForeignKey(Category, on_delete=models.CASCADE)
-    color=models.ForeignKey(Color, on_delete=models.CASCADE)
-    size=models.ForeignKey(Size, on_delete=models.CASCADE)
-    status=models.BooleanField(default=True)
-    featured=models.BooleanField(default=False)
-    
-    
+    author = models.ForeignKey(Author, on_delete=models.CASCADE, null=True)
+    genre = models.ForeignKey(Genre, on_delete=models.CASCADE, null=True)
+    status = models.BooleanField(default=True)
+    featured = models.BooleanField(default=False)
+
     class Meta:
-            verbose_name_plural='6. Products'
-            
+        verbose_name_plural = '3. Products'
+        
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
+
     def image_tag(self):
-        return mark_safe('<img src="%s" width="36" height="50" />' % (self.image.url))        
-    
+        if self.image:
+            return mark_safe(f'<img src="{self.image.url}" width="36" height="50" />')
+        return "Няма изображение"
+
     def __str__(self):
         return self.title

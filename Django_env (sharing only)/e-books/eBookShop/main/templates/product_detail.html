@@ -36,13 +36,14 @@
 
         <!--Right Section: Book Description, Author, Price, Buy button-->
         <div class="right-section">
-            <h2>Book Description</h2>
+            <h2>Подробности за книгата</h2>
             <span style="color: black">{{ data.category }}</span>
-            <p>Detail: {{ data.detail }}</p>
-            <h3>Brand: {{ data.brand }}</h3>
+            <p>{{ data.detail }}</p>
+            <h3>Автор: {{ data.author }}</h3>
+            <h3>Жанр: {{ data.genre }}</h3>
             <h3>
                 <div class="price-label">
-                    <span style="color: white"> {{ data.price }} лв. </span>
+                    <span style="color: black"> {{ data.price }} лв. </span>
                 </div>
                   
             </h3>
@@ -52,9 +53,9 @@
     </div>
     
     <div class="product-Featured-section">
-        <h3 style="color: white;">Featured Books:</h3>
+        <h3 style="color: white;">Отличаващи се книги:</h3>
         {% for product in featured_products %}
-            <div class="book-item article-{{ forloop.counter0 }}" onclick="navigateToPage('{% url 'product_detail' product.slug product.id %}')">
+            <div class="book-item" onclick="navigateToPage('{% url 'product_detail' slug=product.slug id=product.id %}')">
                     <div class="book-cover">
                         <img src="{{ product.image.url }}" alt="{{ product.title }}">
                     </div>
