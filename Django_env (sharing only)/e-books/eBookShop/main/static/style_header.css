@@ -1,29 +1,15 @@
-header {
-    display: flex;
-
-    align-items: center;
-    justify-content: space-between;
-
-    background: #434141;
-    width: 100%;
-    height: 4vw;
-    box-shadow: 0 0.4vw 3vw #70583c;
-}
-
-#logo_box {
+#logo_box{
     display: flex;
     margin-right: 1%;
     margin-top: 0.5vw;
     margin-left: 0.5vw;
-
-}
-
-#logo_img {
-    width: 5vw;
-    height: 4vw;
-}
-
-.logo_name {
+        
+    }
+#logo_img{
+        width: 5vw;
+        height: 4vw;
+    }
+.logo_name{
     font-family: "Baumans", serif;
     font-weight: 600;
     font-style: normal;
@@ -31,56 +17,125 @@ header {
     font-size: 2vw;
     text-decoration: none;
     margin-top: 0.8vw;
-
-}
-
-.search_bar {
+        
+    }
+    
+    
+    
+.search_bar{
     width: max-content;
+    height: 2.4vw;
     display: flex;
     align-items: center;
     padding: 0.5vw 0.2vw 0.5vw;
     border-radius: 2vw;
     background: #fbd5b4;
     transition: box-shadow 0.25s;
-}
-
-.search_bar:focus-within {
+    }
+.search_bar:focus-within{
     background: #f3c6a0;
     box-shadow: 0 0 1vw rgb(0, 0, 0, 0.8);
-}
-
-.search_input {
+    }
+.search_input{
     font-size: 1vw;
+    
     outline: none;
     border: none;
     background: transparent;
     width: 24vw;
-}
-
-.search_input::placeholder {
+    }
+.search_input::placeholder{
     color: rgb(0, 0, 0, 0.3);
-}
+    }
+.search_icon{
+    width: 3vw;
+    height: 1.5vw;
+        
+    }
 
-.search_icon_btn {
-    background: none;
+.search_icon_btn{
     border: none;
-    padding: 0;
-    margin: 0 9px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
+    background: transparent;
 }
-
-.icons {
+    
+   
+    
+.icon_boxss{
+    margin-right: 0.3vw;
+}
+.icons{
     background: none;
     border: none;
     cursor: pointer;
     margin-right: 0.3vw;
-}
-
-.icon {
-    width: 2.4vw;
+    width: 3vw;
     height: 5vw;
     margin: 0.4vw 0.4vw 0.4vw 0;
+}
+.icon{
+    width: 2.4vw;
+    height: 4.5vw;
+    
 
+}
+
+
+
+.header_icons{
+    margin-top: 0.5vw;
+}
+.header_icons ul{
+    list-style: none;
+    display: flex;
+}
+.header_icons ul li{
+    position: relative;
+}
+
+
+.dropdown_menu{
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 100%;
+}
+.dropdown_menu ul{
+    display: block;
+    
+}
+
+
+.dropdown_menu ul li form{
+    margin-top: -1.5vw;
+    font-size: 0.7vw;
+    width: 5vw;
+    
+}
+.dropdown_menu ul li form button{
+
+    font-size: 0.7vw;
+    width: 4vw;
+    height: 1.5vw;
+    text-align: center;
+    font-weight: 600;
+    background-color: #434141;
+    border: 0.1vw solid grey;
+    color: #fae5d3;
+    cursor: pointer;
+    
+}
+.dropdown_menu{
+    display: none;
+}
+.header_icons ul li:hover .dropdown_menu{
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 100%;
+}
+
+.signin_text{
+    color: #fae5d3;
+    font-size: 1vw;
+    margin-top: 2vw;
 }
