@@ -1,43 +1,49 @@
-.site-footer {
+footer {
   background-color: #2c3e50;
   color: #ecf0f1;
-  padding: 20px 0;
-  margin-top: 40px;
+  padding: 2vw 0;
+  margin-top: 1vw;
 }
 
 .footer-container {
-  max-width: 1200px;
+  /* max-width: 1200px; */
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 2vw;
   display: flex;
   flex-wrap: wrap;
-  gap: 30px;
+  /* gap: 30px; */
 }
 
 .footer-section {
   flex: 1;
-  min-width: 250px;
+  /* min-width: 250px; */
 }
 
 .footer-section h4 {
   color: #f39c12;
-  margin-bottom: 15px;
-  font-size: 1.2rem;
+  margin-bottom: 0.4vw;
+  font-size: 1.5vw;
 }
 
 .footer-section ul {
   list-style: none;
   padding: 0;
+  margin: 0;
+
 }
 
 .footer-section ul li {
-  margin-bottom: 8px;
+  margin-bottom: 0.3vw;
+  height: 1.9vw;
 }
 
-.footer-section a {
+.footer-section ul li a {
   color: #bdc3c7;
   text-decoration: none;
   transition: color 0.3s;
+  font-size: 1.2vw;
+  padding: 0;
+  margin: 0;
 }
 
 .footer-section a:hover {
@@ -46,11 +52,11 @@
 
 .social-icons {
   display: flex;
-  gap: 15px;
+  gap: 1vw;
 }
 
 .social-icons a {
-  font-size: 24px;
+  font-size: 1.3vw;
   color: #bdc3c7;
   transition: color 0.3s;
 }
@@ -60,27 +66,27 @@
 }
 
 .payment-section {
-  border-top: 1px solid #34495e;
-  margin-top: 30px;
-  padding-top: 20px;
+  border-top: 0.2vw solid #34495e;
+  margin-top: 1vw;
+  padding-top: 1vw;
   text-align: center;
 }
 
 .payment-icons {
-  font-size: 32px;
-  margin-bottom: 10px;
+  font-size: 1.8vw;
+  margin-bottom: 0.7vw;
 }
 
 .payment-icons i {
-  margin: 0 10px;
+  margin: 0 0.7vw;
 }
 
 .copyright {
   color: #7f8c8d;
-  font-size: 0.9rem;
+  font-size: 1vw;
 }
 
-@media (max-width: 768px) {
+/* @media (max-width: 768px) {
   .footer-container {
     flex-direction: column;
     text-align: center;
@@ -89,4 +95,4 @@
   .social-icons {
     justify-content: center;
   }
-}
+} */

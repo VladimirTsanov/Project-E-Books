@@ -181,3 +181,40 @@ def product_detail(request, slug, id):
         'data': product,
         'featured_products': featured_products,
     })
+
+
+
+
+
+
+
+from django.shortcuts import redirect
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib import messages
+from . forms import UserRegisterForm
+from django.contrib.auth.decorators import login_required
+
+
+
+
+
+def register(request):
+    if request.method == "POST":
+        form = UserRegisterForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            messages.success(request, f'Hi {username}, your account was created successfully')
+#           moje da se napishe neshto za displaivane na message
+            return redirect('login')
+    else:
+        form = UserRegisterForm()
+    
+    # form = UserCreationForm()
+    # gorniq red da go iztriq
+    return render(request, 'register.html', {'form': form})
+
+
+@login_required()
+def favorite(request):
+    return render(request, 'favorite.html')

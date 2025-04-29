@@ -8,9 +8,9 @@
     <link rel="stylesheet" href="{% static 'style.css'%}">
     <link rel="stylesheet" href="{% static 'style_header.css'%}">
     <link rel="stylesheet" href="{% static 'style_main.css'%}">
-    <link rel="stylesheet" href="{% static 'style_logi_register.css'%}">
     <link rel="stylesheet" href="{% static 'style_feedback.css'%}">
     <link rel="stylesheet" href="{% static 'FooterStyles.css'%}">
+    <link rel="stylesheet" href="{% static 'style_register.css'%}">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -24,99 +24,70 @@
 </head>
 <body>
     <header>
-        <!-- Логото в header -->
-        <div id="logo_box">
-            <img id="logo_img" src="{% static '\images\primerno_logo2-removebg-preview.png' %}" alt="website_book_logo">
-            <a class="logo_name" href="{% url 'home' %}">E-BOOKS</a>
-        </div>
-        <!-- Search Bar -->
-        <form method="get" class="search_bar">
-          <button type="submit" class="search_icon_btn">
-              <img class="search_icon" src="{% static '\images\search.svg' %}" alt="search_icon_img">
-          </button>
-          <input class="search_input" type="search" name="q" value="{{ request.GET.q }}" placeholder="Търси по заглавие...">
-        </form>
-        <!-- Иконки бутони в header -->
-        <nav>
-            <button class="icons"><img class="icon" src="{% static '\images\heart.svg' %}" alt="heart_icon_img"></button>
-
-            <button class="icons btnLogin-popum" id="account_icon"><img class="icon" src="{% static '\images\account_circle.svg' %}" alt="account_icon"></button>
-
-            <button class="icons"><img class="icon" src="{% static '\images\shopping_cart.svg' %}" alt="shopping_cart_img"></button> 
-        </nav>
+                <!-- Логото в header -->
+                <div id="logo_box">
+                  <img id="logo_img" src="{% static '\images\primerno_logo2-removebg-preview.png' %}" alt="website_book_logo">
+                  <a class="logo_name" href="{% url 'home' %}">E-BOOKS</a>
+              </div>
+              <!-- Search Bar -->
+              <form method="get" class="search_bar">
+                <button type="submit" class="search_icon_btn">
+                    <img class="search_icon" src="{% static '\images\search.svg' %}" alt="search_icon_img">
+                </button>
+                <input class="search_input" type="search" name="q" value="{{ request.GET.q }}" placeholder="Търси по заглавие...">
+              </form>
+              <!-- Иконки бутони в header -->
+              <nav class="header_icons">
+                <ul>
+                  {% if user.is_authenticated %}
+      
+                  <li><button class="icons"><a href="{% url 'favorite' %}"><img class="icon" src="{% static '\images\heart.svg' %}" alt="heart_icon_img"></a></button></li>
+      
+                  <li><button class="icons btnLogin-popum" id="account_icon"><a><img class="icon" src="{% static '\images\account_circle.svg' %}" alt="account_icon"></a></button>
+                      <div class="dropdown_menu">
+                        <ul>
+                          <li>
+                            
+                              <form class="logout" method="post" action="{% url 'logout' %}" >
+                                {% csrf_token %}
+                                <button class="logout_button" type="submit">Logout</button>
+                              </form>
+                            
+                          </li>
+                        </ul>
+                      </div>
+                  </li>
+                  <li><button class="icons"><a><img class="icon" src="{% static '\images\shopping_cart.svg' %}" alt="shopping_cart_img"></a></button> </li>
+      
+                  {% else %}
+                  <li><h3 class="signin_text">Sign in</h3></li>
+                  <li><button class="icons btnLogin-popum" id="account_icon"><a href="{% url 'login' %}"><img class="icon" src="{% static '\images\account_circle.svg' %}" alt="account_icon"></a></button></li>
+      
+                  {% endif %}
+      
+      
+      
+                </ul>   
+            </nav>
     </header>
 
-    <div class="wrapper">
-
-        <span class="icon-close"><img class="img_close" src="{% static '\images\close.svg' %}" alt="close icon"></span>
-
-        <div class="form-box login">
-          <h2>Login</h2>
-
-          <form action="#">
-            <div class="input-box">
-              <span class="lr_icon"><img class="inp_icons" src="{% static '\images\mail.svg' %}" alt="mail icon"></span>
-              <input type="text" required>   <!--"type" principno e email, ama taka po-dobre izglejda,kato se napishe neshto razlichno ot mail-->
-              <label>Email</label>
-            </div>
-
-            <div class="input-box">
-              <span class="lr_icon"><img class="inp_icons" src="{% static '\images\lock.svg' %}" alt="locker icon"></span>
-              <input type="password" required>
-              <label>Password</label>
-            </div>
-
-            <div class="remember-forgot">
-              <label><input class="chec_box" type="checkbox">Remember me</label>
-              <a href="#">Forgot password?</a>
-            </div>
-            <button type="submit" class="btn">Login</button>
-
-            <div class="login-register">
-              <p>Dont have an account? <a href="#" class="register-link">Register</a></p>
-            </div>
-          </form>
-
-        </div>
-
-        
-
-        <div class="form-box register">
-          <h2>Registration</h2>
-
-          <form action="#">
-            <div class="input-box">
-              <span class="lr_icon"><img class="inp_icons" src="{% static '\images\user_icon.svg' %}" alt="user figure icon"></span>
-              <input type="text" required>   
-              <label>Username</label>
-            </div>
-            <div class="input-box">
-              <span class="lr_icon"><img class="inp_icons" src="{% static '\images\mail.svg' %}" alt="mail icon"></span>
-              <input type="text" required>   <!--"type" principno e email, ama taka po-dobre izglejda,kato se napishe neshto razlichno ot mail-->
-              <label>Email</label>
-            </div>
-
-            <div class="input-box">
-              <span class="lr_icon"><img class="inp_icons" src="{% static '\images\lock.svg' %}" alt="locker icon"></span>
-              <input type="password" required>
-              <label>Password</label>
-            </div>
-
-            <div class="remember-forgot">
-              <label><input class="chec_box" type="checkbox">I agree to the terms & conditions</label>
-              
-            </div>
-            <button type="submit" class="btn">Register</button>
-
-            <div class="login-register">
-              <p>Already have an account? <a href="#" class="login-link">Login</a></p>
-            </div>
-          </form>
-
-        </div>
 
 
-    </div>
+
+
+
+    <div id="content_scrow">
+
+
+      <div>
+        {% if messages %}
+          {% for message in messages %}
+          <div class="alert alert-{{message.tags}}">{{message}}</div>
+          {% endfor %}
+        {% endif %}
+      </div>
+
+
 
     {% block content %}
     {% endblock %}
@@ -163,11 +134,16 @@
           </footer>
     </footer>
 
+
+  </div>
+
+
     <!-- JQuery за продуктова страница-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" charset="utf-8"></script> 
     <script src="{% static 'script_log_regis.js' %}"></script>
     <script src="{% static 'script_sliderRange.js' %}"></script>
     <script src="{% static 'script_feedback.js' %}"></script>
+    <script src="{% static 'script_slider_main.js' %}"></script>
   
 
     

@@ -5,18 +5,28 @@
 <main>
     <!-- първа секция с 2-3 банера (избрани книги) -->
     {% if not is_filtered %}
-        <div class="banner_section">
-            <div id="first_container" style="color: aqua;">First container here</div>
-            <div id="second_container">Second container here</div>
-            <div id="third_container">Third Container here</div>
-        </div>
+    <div class="main_page_box">  
+        <div class="slider">
+            <div class="slide" id="kids_stories">
+              <a href="kids_stroies.html"><button id="link_kid_stories"></button></a> 
+              
+            </div>
+            <div class="slide" id="foreighn_lit">
+              <a href="foreigh_lit.html"><button id="link_foreighn_lit"></button></a> 
+              
+            </div>
+            <div class="slide" id="school">
+              <a href="school.html"><button id="link_school"></button></a> 
 
-        <!-- втора секция с 2-3 слайдера -->
-        <div class="slider_section">
-            <div id="first_slider">Текст 1</div>
-            <div id="second_slider">Текст 2</div>
-            <div id="third_slider">Текст 3</div>
+            </div>
+            
+            
         </div>
+        <button class="prev">&#10094;</button>
+        <button class="next">&#10095;</button>
+    
+
+    </div>
     {% endif %}
 
     <!-- трета секиця с всички книги -->
