@@ -1,5 +1,6 @@
 from django.contrib import admin, messages
 from .models import Genre, Author, Product, Feedback
+from .models import Product, Order, Payment, HomepageSetting, Rating, Favorite
 from django.utils.text import slugify
 from django.utils.html import format_html
 
@@ -70,3 +71,29 @@ class ProductAdmin(admin.ModelAdmin):
     display_genres.short_description = 'Genres'    
         
 admin.site.register(Product, ProductAdmin)
+
+
+
+
+@admin.register(Order)
+class OrderAdmin(admin.ModelAdmin):
+    list_display = ('id', 'customer_name', 'book_title', 'quantity', 'total_price', 'order_date', 'user') 
+    list_filter = ('order_date', 'country', 'user') 
+    search_fields = ('customer_name', 'book_title', 'user__username', 'user__email') 
+    ordering = ('-order_date',)
+
+
+@admin.register(Rating)
+class RatingAdmin(admin.ModelAdmin):
+    list_display = ('product', 'user', 'rating', 'created_at') 
+    list_filter = ('rating', 'created_at') 
+    search_fields = ('product__title', 'user__username', 'user__email') 
+    ordering = ('-created_at',) 
+
+
+@admin.register(Favorite)
+class FavoriteAdmin(admin.ModelAdmin):
+    list_display = ('product', 'user', 'created_at', 'product_id', 'product_slug') 
+    list_filter = ('created_at',) 
+    search_fields = ('product__title', 'user__username', 'user__email') 
+    ordering = ('-created_at',) 

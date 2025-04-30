@@ -34,11 +34,20 @@ prevBtn.addEventListener('click', prevSlide);
 
 let slideInterval = setInterval(nextSlide, 6000);
 
-
 slider.addEventListener('mouseover', () => {
     clearInterval(slideInterval);
   });
   
-  slider.addEventListener('mouseout', () => {
+slider.addEventListener('mouseout', () => {
     slideInterval = setInterval(nextSlide, 6000);
   });
+
+
+
+
+
+
+  
+document.getElementById("kids_stories").addEventListener("click", function() {window.location.href = "http://127.0.0.1:8000/?genre=1";});
+document.getElementById("foreighn_lit").addEventListener("click", function() {window.location.href = "http://127.0.0.1:8000/?genre=15";});
+document.getElementById("school").addEventListener("click", function() {window.location.href = "http://127.0.0.1:8000/?genre=10";});

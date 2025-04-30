@@ -1,0 +1,132 @@
+{# main/templates/main/order_success.html #}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Successful!</title>
+    {# You might want to link to your main CSS file here for consistent styling #}
+    <link rel="stylesheet" href="{% static 'main/css/ProductPageStyle.css' %}"> {# Example CSS link #}
+    <style>
+         /* Add some basic styling for the success container */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+        }
+        .success-container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 90%;
+        }
+        h1 {
+            color: #28a745; /* Green color for success */
+            margin-bottom: 20px;
+        }
+        p {
+            color: #555;
+            margin-bottom: 15px;
+        }
+        .download-buttons {
+            margin-top: 25px;
+            margin-bottom: 25px;
+        }
+        .download-button {
+            display: inline-block;
+            background-color: #ff9800; /* Orange color matching product page elements */ {# MODIFIED #}
+            color: white; /* White text for readability on orange */
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 1.1em;
+            border-radius: 5px;
+            margin: 5px;
+            /* Border color slightly darker orange */
+            border: 1px solid #e68900; /* Darker orange border */ {# MODIFIED #}
+            transition: background-color 0.3s ease;
+        }
+        .download-button:hover {
+            background-color: #e68900; /* Darker orange on hover */ {# MODIFIED #}
+            text-decoration: none;
+        }
+         .continue-button {
+             display: inline-block;
+             margin-top: 20px;
+             padding: 10px 20px;
+             background-color: #6c757d; /* Grey color */
+             color: white;
+             text-decoration: none;
+             border-radius: 5px;
+              transition: background-color 0.3s ease;
+         }
+        .continue-button:hover {
+            background-color: #545b62; /* Darker grey */
+             text-decoration: none;
+         }
+    </style>
+</head>
+<body>
+
+    <div class="success-container">
+        <h1>Order Successful!</h1>
+
+        {% if order %}
+            <p>Thank you for your purchase, <strong>{{ order.customer_name }}</strong>!</p>
+            <p>Your Order ID is: <strong>{{ order.id }}</strong></p>
+            {% if product %}
+                 <p>Product: <strong>{{ product.title }}</strong></p>
+                 <p>Total Price: <strong>{{ order.total_price|floatformat:2 }} лв.</strong></p>
+
+                
+                 <div class="download-buttons">
+                      <p>Download your purchased file:</p>
+                    
+                     {% if has_epub %} 
+                        
+                          <a href="{% url 'download_product_file' order.id 'epub' %}" class="download-button">Download EPUB</a>
+                     {% endif %}
+
+                
+                     {% if has_pdf %} 
+                       
+                          <a href="{% url 'download_product_file' order.id 'pdf' %}" class="download-button">Download PDF</a>
+                    {% endif %}
+
+       
+                      {% if not has_epub and not has_pdf %}
+                           <p>No downloadable files available for this product.</p>
+                      {% endif %}
+                 </div>
+
+            {% else %}
+                 <p>Thank you for your purchase!</p>
+                 <p>Order ID: {{ order.id }}</p>
+                 <p>Could not load product details for this order.</p>
+            {% endif %}
+
+        {% else %}
+            <p>Thank you for your order. Your purchase has been confirmed.</p>
+             <p>Details for your order will be sent to your email.</p>
+        {% endif %}
+
+         <p>A confirmation email with your file{% if has_epub or has_pdf %} (also available below){% endif %} has been sent to your provided email address. Please check your inbox, including your spam or junk folder.</p>
+
+       
+        <a href="{% url 'home' %}" class="continue-button">Continue Shopping</a> 
+
+    </div> 
+
+
+
+</body>
+</html>

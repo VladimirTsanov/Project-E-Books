@@ -5,6 +5,57 @@
 
 {% block content %}
 
-<h1>{{user.username}}'s favorite collection</h1>
+<h1 style="color:white;">{{user.username}}'s favorite collection</h1>
+
+<div class="products_grid book_container_section" >
+    {% if request.GET.q %}
+        <p>Резултати за: <strong>{{ request.GET.q }}</strong></p>
+    {% endif %}
+
+    {% for product in favorite_products %}
+        <div class="book-item" onclick="location.href='{% url 'product_detail' slug=product.product_slug id=product.product_id %}'">
+            <div class="book-cover">
+                <img src="{{ product.product_image.url }}" alt="{{ product.product_title }}">
+            </div>
+            <div class="book-details">
+
+
+               <div class="product-rating" data-product-id="{{ product.product_id }}">
+                {% if product.product_average_rating is not None %}
+                    {% for i in "12345"|make_list %}
+                        <span class="star">
+                            {% if product.product_average_rating|default:0 >= forloop.counter %}
+                                <i class="fas fa-star rated"></i>  {# Filled star #}
+                            {% elif product.product_average_rating|default:0 >= forloop.counter|add:'-0.5' %}
+                                <i class="fas fa-star-half-alt rated"></i>  {# Half star #}
+                            {% else %}
+                                <i class="far fa-star"></i>  {# Empty star #}
+                            {% endif %}
+                        </span>
+                    {% endfor %}
+                    <span class="rating-text">({{ product.product_average_rating|floatformat:1 }}/5)</span>
+                {% else %}
+                    <span class="rating-text">No ratings yet.</span>
+                {% endif %}
+                </div>
+
+
+
+
+
+                <h4 class="book-title">{{ product.product_title }}</h4>
+                <div class="book-price">{{ product.product_price|floatformat:2 }} лв.</div>
+                
+                <a href="{% url 'initiate_payment' product.product_id %}"><button class="add-to-cart-btn" onclick="event.stopPropagation();">Buy Now</button></a>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+
+
+
+
+
 
 {% endblock %}

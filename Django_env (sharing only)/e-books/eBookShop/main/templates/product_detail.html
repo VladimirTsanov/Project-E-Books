@@ -1,82 +1,487 @@
+
 {% extends 'base.html' %}
 {% load static %}
+
 {% block content %}
 <!DOCTYPE html>
-<html lang="bg">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ product.title }} - Product Details</title> 
+
     <link rel="stylesheet" href="{% static 'styleProduct_Ivan.css' %}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@material/web@latest/dist/material-web.css">
-    <script type="module" src="https://cdn.jsdelivr.net/npm/@material/web@latest/dist/material-web.js"></script>
+
+
+ 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
 </head>
-
 <body>
-    <div class="container">
-        <div class="left-section">
-            <h1>{{ data.title }}</h1>
-            <div class="book-cover">
-                <img src="{{ data.image.url }}" alt="{{ data.title }}">
-            </div>
-            <div class="stars">
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star-half-alt"></i>
-            </div>
-            <div class="buttons">                              
-                <button onclick="window.location.href = 'SimplePayment.html'">
-                    Buy Now
-                </button>
-                <button type="button">Add to Favourites</button>
-            </div>
+
+    {% csrf_token %}
+
+    <div class="product-detail-container"> 
+
+        <div class="product-detail-header"> 
+             <h1>{{ product.title }}</h1> 
+
+             
+             {% if product.created_at %}
+               
+               <p class="product-date"><time datetime="{{ product.created_at|date:'Y-m-d' }}">{{ product.created_at|date:"Y-m-d H:i:s" }}</time></p> {# Display creation date #}
+             {% endif %}
         </div>
 
-        <!--Right Section: Book Description, Author, Price, Buy button-->
-        <div class="right-section">
-            <h2>Подробности за книгата</h2>
-            <span style="color: black">{{ data.category }}</span>
-            <p>{{ data.detail }}</p>
-            <h3>Автор: {{ data.author }}</h3>
-            <h3>Жанр: {{ data.genre }}</h3>
-            <h3>
-                <div class="price-label">
-                    <span style="color: black"> {{ data.price }} лв. </span>
+        
+        <div class="page-layout-container section-padding"> 
+
+           
+            <div class="main-content-area">
+
+                <div class="product-image-block"> 
+                    <img src="{{ product.image.url }}" alt="{{ product.title }} Cover Image">
+                    
+                   
                 </div>
-                  
-            </h3>
-            
-        </div>
-     
-    </div>
-    
-    <div class="product-Featured-section">
-        <h3 style="color: white;">Отличаващи се книги:</h3>
-        {% for product in featured_products %}
-            <div class="book-item" onclick="navigateToPage('{% url 'product_detail' slug=product.slug id=product.id %}')">
-                    <div class="book-cover">
-                        <img src="{{ product.image.url }}" alt="{{ product.title }}">
-                    </div>
-                    <div class="book-details">
-                        <div class="book-info">
-                            <div class="book-rating">
-                                ⭐⭐⭐⭐☆
-                            </div>
-                            <div class="book-icons">
-                                ❤️ 🛒
-                            </div>
-                        </div>
-                        <h4 class="book-title">{{ product.title }}</h4>
-                        <div class="book-author">Издателство: {{ product.brand }}</div>
-                        <div class="book-price">Цена: {{ product.price }} лв.</div>
-                    </div>
-            </div>
-        {% endfor %}
-      </div>
-    
-</body>
 
+                <div class="info-author-group"> 
+                     <div class="product-info-block"> 
+                         <h2>About the Book</h2>
+
+                          <div class="product-rating" data-product-id="{{ product.id }}" data-average-rating="{{ product.average_rating|default:0 }}" data-total-ratings="{{ product.total_ratings|default:0 }}"> 
+                               {% if product.average_rating is not None %} 
+                                   {% for i in "12345"|make_list %} 
+                               
+                                       <span class="star" data-rating="{{ forloop.counter }}"> 
+                                            {% if product.average_rating|default:0 >= forloop.counter %} 
+                                                <i class="fas fa-star rated"></i> 
+                                            {% elif product.average_rating|default:0 >= forloop.counter|add:'-0.5' %} 
+                                                <i class="fas fa-star-half-alt rated"></i> 
+                                            {% else %}
+                                                <i class="far fa-star"></i> 
+                                            {% endif %}
+                                        </span>
+                                   {% endfor %}
+
+                                   {% if product.total_ratings|default:0 > 0 or product.average_rating is not None %} 
+                                     <span class="rating-text">({{ product.average_rating|default:0|floatformat:1 }}/5, {{ product.total_ratings|default:0 }} rating{% if product.total_ratings|default:0 != 1 %}s{% endif %})</span> 
+                                   {% else %}
+                                      <span class="rating-text">No ratings yet.</span>
+                                {% endif %}
+                               {% endif %} 
+                          </div>
+
+
+                     
+
+
+                         <div class="product-description">
+                            {% if product.detail %}
+                              <p>
+                                <span class="short-text">
+                                  {{ product.detail|slice:":250" }}{% if product.detail|length > 250 %}…{% endif %}
+                                </span>
+                                <span class="full-text" style="display:none;">
+                                  {{ product.detail|linebreaksbr }}
+                                </span>
+                              </p>
+                              {% if product.detail|length > 250 %}
+                                <button class="read-more">Read more ▼</button>
+                              {% endif %}
+                              
+                            {% else %}
+                              <p>No description available.</p>
+                            {% endif %}
+                          </div>
+                        
+
+
+                       <div class="product-metadata"> 
+
+                               {% if product.author %}
+                                   <p><strong>Автор:</strong> {{ product.author }}</p> 
+                               {% endif %}
+                               {% if product.publisher %}
+                                    <p><strong>Издателство:</strong> {{ product.publisher }}</p> 
+                               {% endif %}
+                                {% if product.pages %}
+                                     <p><strong>Страници:</strong> {{ product.pages }}</p> 
+                                {% endif %}
+                          </div>
+
+                            <div class="product-price-buy"> 
+
+                               <p class="product-price">{{ product.price|floatformat:2 }} лв.</p> 
+
+                                <a href="{% url 'initiate_payment' product.id %}" class="buy-button">Buy Now</a> 
+
+                               {% if request.user.is_authenticated %} 
+                                   <button class="favorite-button" data-product-id="{{ product.id }}" data-is-favorited="{{ is_favorited|lower }}"> {# MODIFIED: Add data attributes #}
+                                       {% if is_favorited %} 
+                                           <i class="fas fa-heart"></i> 
+                                       {% else %} 
+                                           <i class="far fa-heart"></i> 
+                                       {% endif %}
+                                    </button>
+                               {% else %}
+                                    {# Optional: Show a disabled button or message if not logged in #}
+                                    {# <button class="favorite-button" disabled title="Login to favorite"><i class="far fa-heart"></i></button> #}
+                               {% endif %}
+
+
+                           </div>
+
+                     </div> 
+
+
+                </div> 
+
+            </div> 
+
+
+
+            <div class="reviews-sidebar">
+                <section class="reviews-section"> 
+                     <h2>Customer Reviews</h2>
+
+                     <div class="review">
+                          <p class="reviewer">Sarah M.</p>
+                          <p>"A thrilling conclusion to an amazing series! I couldn't put it down."</p>
+                     </div>
+                      <div class="review">
+                          <p class="reviewer">John B.</p>
+                          <p>"Amazing book! Highly recommended."</p>
+                     </div>
+                </section>
+            </div> 
+
+        </div> 
+
+
+    </div> 
+
+
+    <script>
+
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.product-description').forEach(function(container) {
+              var btn = container.querySelector('.read-more');
+              if (!btn) return;
+          
+              var shortText = container.querySelector('.short-text');
+              var fullText  = container.querySelector('.full-text');
+              var expanded  = false;
+          
+              btn.addEventListener('click', function() {
+                if (!expanded) {
+                  shortText.style.display = 'none';
+                  fullText.style.display  = 'inline';
+                  btn.textContent = 'Read less ▲';
+                } else {
+                  shortText.style.display = 'inline';
+                  fullText.style.display  = 'none';
+                  btn.textContent = 'Read more ▼';
+                }
+                expanded = !expanded;
+              });
+            });
+          });
+
+
+
+
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        const csrftoken = getCookie('csrftoken');
+
+        const readMoreBtns = document.querySelectorAll('.read-more-btn');
+        readMoreBtns.forEach(button => {
+            const parentSection = button.closest('.product-description, .author-info-section');
+            if (!parentSection) return;
+
+            const shortDescription = parentSection.querySelector('.short-description');
+            const fullDescription = parentSection.querySelector('.full-description');
+            const arrowDown = button.querySelector('.arrow-down');
+
+
+             if (!shortDescription || !fullDescription || fullDescription.textContent.trim() === '' || fullDescription.classList.contains('hidden')) {
+
+             }
+
+            button.addEventListener('click', () => {
+                 const isExpanded = fullDescription.classList.toggle('hidden');
+                 button.textContent = isExpanded ? 'Read More ' : 'Read Less ';
+
+                 if (arrowDown) {
+                      button.appendChild(arrowDown);
+                     arrowDown.style.transform = isExpanded ? 'rotate(0deg)' : 'rotate(180deg)';
+                 }
+            });
+
+            if (!fullDescription || fullDescription.textContent.trim() === '') {
+                 button.style.display = 'none';
+            }
+        });
+
+
+
+        const productRatingDiv = document.querySelector('.product-rating');
+        if (productRatingDiv) {
+            const productId = productRatingDiv.dataset.productId;
+            const stars = productRatingDiv.querySelectorAll('.star');
+            const ratingTextSpan = productRatingDiv.querySelector('.rating-text');
+
+
+            const rateUrl = "{% url 'rate_product' product.id %}";
+            stars.forEach(star => {
+                star.addEventListener('click', function() {
+
+                    {% if request.user.is_authenticated %}
+                         const rating = this.dataset.rating; 
+
+                         fetch(rateUrl, { 
+                              method: 'POST',
+                              headers: {
+                                  'Content-Type': 'application/json',
+                                  'X-CSRFToken': csrftoken
+                               },
+                              body: JSON.stringify({ 'rating': rating })
+                         })
+                         .then(response => {
+                              if (!response.ok) {
+                                  
+                                   if (response.status === 403) { 
+                                        alert('Please log in to rate this product.');
+                                   } else {
+                                        response.json().then(data => {
+                                             alert(data.message || 'Error submitting rating.');
+                                         }).catch(() => {
+                                             alert('Error submitting rating.'); 
+                                         });
+                                   }
+                                   throw new Error(`HTTP error! status: ${response.status}`);
+                              }
+                              return response.json();
+                         })
+                         .then(data => {
+                             
+                              if (data.status === 'success') {
+                                   const newAverage = data.average_rating;
+                                   const newTotal = data.total_ratings;
+
+                                   productRatingDiv.dataset.averageRating = newAverage; 
+                                   productRatingDiv.dataset.totalRatings = newTotal; 
+
+                                   
+                                   stars.forEach(s => {
+                                        const starRating = parseInt(s.dataset.rating);
+                                        const icon = s.querySelector('i');
+                                        icon.classList.remove('fas', 'far', 'fa-star', 'fa-star-half-alt', 'rated'); 
+
+                                        if (newAverage >= starRating) {
+                                             icon.classList.add('fas', 'fa-star', 'rated'); 
+                                        } else if (newAverage >= starRating - 0.5) { 
+                                             icon.classList.add('fas', 'fa-star-half-alt', 'rated'); 
+                                        } else {
+                                             icon.classList.add('far', 'fa-star'); 
+                                        }
+                                   });
+                                   
+                                   if (ratingTextSpan) {
+                                        ratingTextSpan.textContent = `(${newAverage.toFixed(1)}/5, ${newTotal} rating${newTotal !== 1 ? 's' : ''})`; 
+                                   }
+                                   console.log('Rating submitted:', data);
+                                } else {
+                                   
+                                   alert(data.message || 'Error submitting rating.');
+                                }
+                         })
+                         .catch(error => {
+                              console.error('Fetch error during rating submission:', error);
+                  
+                         });
+                    {% else %}
+                
+                         alert('Please log in to rate this product.');
+                         return; 
+                    {% endif %}
+                });
+            });
+
+            productRatingDiv.dataset.displayAverage = productRatingDiv.dataset.averageRating; 
+            productRatingDiv.dataset.totalRatings = productRatingDiv.dataset.totalRatings || 0; 
+
+
+            stars.forEach(star => {
+                 star.addEventListener('mouseover', function() {
+                      const hoverRating = parseInt(this.dataset.rating);
+                      stars.forEach(s => {
+                           const starRating = parseInt(s.dataset.rating);
+                           const icon = s.querySelector('i');
+                           
+                           icon.classList.remove('fas', 'fa-star', 'fa-star-half-alt', 'rated');
+                           icon.classList.add('far', 'fa-star');
+
+                           if (starRating <= hoverRating) {
+                                icon.classList.remove('far');
+                               icon.classList.add('fas', 'fa-star', 'rated');
+                           }
+                      });
+                       
+                       if (ratingTextSpan) {
+                           ratingTextSpan.textContent = `(${hoverRating}.0/5)`; 
+                       }
+                 });
+                 star.addEventListener('mouseout', function() {
+                     
+                      const currentAverage = parseFloat(productRatingDiv.dataset.averageRating || 0); 
+                      const currentTotal = parseInt(productRatingDiv.dataset.totalRatings || 0); 
+
+
+                       stars.forEach(s => {
+                           const starRating = parseInt(s.dataset.rating);
+                           const icon = s.querySelector('i');
+                           icon.classList.remove('fas', 'far', 'fa-star', 'fa-star-half-alt', 'rated'); 
+
+                            if (currentAverage >= starRating) {
+                                icon.classList.add('fas', 'fa-star', 'rated'); 
+                            } else if (currentAverage >= starRating - 0.5) {
+                                icon.classList.add('fas', 'fa-star-half-alt', 'rated'); 
+                            } else {
+                                icon.classList.add('far', 'fa-star'); 
+                            }
+                       });
+                       
+                       if (ratingTextSpan) {
+                           if (currentTotal > 0) {
+                                ratingTextSpan.textContent = `(${currentAverage.toFixed(1)}/5, ${currentTotal} rating${currentTotal !== 1 ? 's' : ''})`;
+                           } else {
+                                ratingTextSpan.textContent = `No ratings yet.`;
+                           }
+                       }
+                       productRatingDiv.dataset.displayAverage = currentAverage; 
+                 });
+            });
+
+           
+            const initialAverage = parseFloat(productRatingDiv.dataset.averageRating || 0);
+            const initialTotal = parseInt(productRatingDiv.dataset.totalRatings || 0); 
+            productRatingDiv.dataset.totalRatings = initialTotal; 
+
+            stars.forEach(s => {
+                 const starRating = parseInt(s.dataset.rating);
+                 const icon = s.querySelector('i');
+                 icon.classList.remove('fas', 'far', 'fa-star', 'fa-star-half-alt', 'rated');
+
+                  if (initialAverage >= starRating) {
+                      icon.classList.add('fas', 'fa-star', 'rated');
+                  } else if (initialAverage >= starRating - 0.5) {
+                      icon.classList.add('fas', 'fa-star-half-alt', 'rated');
+                  } else {
+                      icon.classList.add('far', 'fa-star');
+                  }
+            });
+            
+             if (ratingTextSpan) {
+                 if (initialTotal > 0) {
+                      ratingTextSpan.textContent = `(${initialAverage.toFixed(1)}/5, ${initialTotal} rating${initialTotal !== 1 ? 's' : ''})`;
+                 } else {
+                      ratingTextSpan.textContent = `No ratings yet.`;
+                 }
+             }
+        }
+
+
+     
+        const favoriteButton = document.querySelector('.favorite-button');
+        if (favoriteButton) {
+            const productId = favoriteButton.dataset.productId;
+      
+            const favoriteUrl = "{% url 'toggle_favorite' product.id %}";
+            favoriteButton.addEventListener('click', function() {
+   
+                 {% if request.user.is_authenticated %}
+           
+
+                     fetch(favoriteUrl, {
+                          method: 'POST',
+                          headers: {
+                              'X-CSRFToken': csrftoken,
+                              'Content-Type': 'application/json' 
+                          },
+                          
+                      })
+                     .then(response => {
+                          if (!response.ok) {
+                      
+                               if (response.status === 403) { 
+                                    alert('Please log in to favorite this product.');
+                               } else {
+                                    response.json().then(data => {
+                                         alert(data.message || 'Error toggling favorite status.');
+                                     }).catch(() => {
+                                         alert('Error toggling favorite status.');
+                                     });
+                               }
+                               throw new Error(`HTTP error! status: ${response.status}`);
+                          }
+                          return response.json(); 
+                     })
+                     .then(data => {
+                      
+                           if (data.status === 'success') {
+                               const icon = favoriteButton.querySelector('i');
+                               icon.classList.remove('fas', 'far', 'fa-heart'); 
+
+                               if (data.is_favorited) {
+                                    icon.classList.add('fas', 'fa-heart'); 
+                                    favoriteButton.dataset.isFavorited = 'true'; 
+                                    console.log('Product favorited.');
+                                   
+                               } else {
+                                    icon.classList.add('far', 'fa-heart'); 
+                                    favoriteButton.dataset.isFavorited = 'false'; 
+                                    console.log('Product unfavorited.');
+                                   
+                                }
+                               
+                          } else {
+                           
+                               alert(data.message || 'Error toggling favorite status.');
+                          }
+                     })
+                     .catch(error => {
+                          console.error('Fetch error during favorite toggle:', error);
+                  
+                     });
+                 {% else %}
+                     
+                      alert('Please log in to favorite this product.');
+                      return; 
+                 {% endif %}
+            });
+        }
+
+    </script>
+
+
+
+</body>
 </html>
 {% endblock %}

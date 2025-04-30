@@ -112,7 +112,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Sofia'
 
 USE_I18N = True
 
@@ -146,3 +146,33 @@ LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = '/'
 
 LOGIN_URL = 'login'
+
+
+
+
+
+
+
+
+
+
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder', # Looks in STATICFILES_DIRS
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder', # Looks in each app's 'static' dir (e.g., main/static/)
+]
+
+
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend' 
+
+EMAIL_HOST = 'smtp.gmail.com' 
+EMAIL_PORT = 587           
+EMAIL_USE_TLS = True        
+
+
+EMAIL_HOST_USER = 'siteprojectvibi@gmail.com'
+
+EMAIL_HOST_PASSWORD = 'qypvaibuxnlrnhkl' 
+
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
