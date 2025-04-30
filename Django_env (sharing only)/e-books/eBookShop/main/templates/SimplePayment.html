@@ -1,0 +1,265 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Purchase</title>
+
+    <link rel="stylesheet" href="{% static 'PaymentStyles.css' %}">
+
+
+</head>
+<body>
+
+
+    <div id="loadingScreen" class="loading-screen">
+        <div class="loading-content">
+            <p>Processing Order...</p>
+
+            <div class="spinner"></div>
+
+        </div>
+    </div>
+
+    <div class="form-container">
+        <h2>Complete Your Purchase</h2>
+
+
+        <div class="product-summary">
+            <p>Item: <strong>{{ product.title }}</strong></p>
+            <p>Price: <strong>{{ product.price|floatformat:2 }} лв.</strong></p>
+        </div>
+
+        <form method="post" action="{% url 'process_order' %}" id="paymentForm">
+            {% csrf_token %}
+            <input type="hidden" name="product_id" value="{{ product.id }}">
+  
+            <input type="hidden" name="file_format" id="chosenFormatInput"> 
+
+            <fieldset>
+                <legend>Customer Information</legend>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="fullName">Full Name:</label>
+                        <input type="text" id="fullName" name="full_name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number:</label>
+                        <input type="tel" id="phone" name="phone_number">
+                    </div>
+                    <div class="form-group">
+                        <label for="country">Country:</label>
+                        <input type="text" id="country" name="country"> 
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                 <legend>File Format</legend>
+                 <div class="form-group">
+                      <label for="fileFormat">Select Format:</label>
+                       <select id="fileFormat" name="file_format" required> 
+                           <option value="">--Please choose an option--</option>
+                           {% if product.epub_file %}
+                               <option value="epub">EPUB</option>
+                           {% endif %}
+                           {% if product.pdf_file %}
+                               <option value="pdf">PDF</option>
+                            {% endif %}
+                       
+                      </select>
+                 </div>
+            </fieldset>
+
+             <fieldset>
+                 <legend>Special Instructions</legend>
+                 <div class="form-group">
+                     <label for="specialInstructions">Notes:</label>
+                     <textarea id="specialInstructions" name="special_instructions" rows="4"></textarea>
+                 </div>
+             </fieldset>
+
+
+            <fieldset>
+                <legend>Payment Information</legend>
+                <div class="form-group">
+                    <label for="paymentMethod">Select Payment Method:</label>
+                    <select id="paymentMethod" name="payment_method" required>
+                        <option value="">--Please choose a method--</option>
+                        <option value="creditCard">Credit Card</option>
+                        <option value="paypal">PayPal</option>
+                        <option value="bankTransfer">Bank Transfer</option>
+                    </select>
+                </div>
+
+              
+                <div id="creditCardDetails" class="payment-details">
+                    <h4>Credit Card Details</h4>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="cardNumber">Card Number:</label>
+                            <input type="text" id="cardNumber" name="card_number" pattern="\d{13,19}" title="Credit card number (13-19 digits)">
+                        </div>
+                        <div class="form-group">
+                            <label for="expiryDate">Expiry Date (MM/YY):</label>
+                            <input type="text" id="expiryDate" name="expiry_date" placeholder="MM/YY" pattern="(0[1-9]|1[0-2])\/?([0-9]{2})" title="Expiry date in MM/YY format">
+                        </div>
+                        <div class="form-group">
+                            <label for="cvv">CVV:</label>
+                            <input type="text" id="cvv" name="cvv" pattern="\d{3,4}" title="CVV (3 or 4 digits)">
+                        </div>
+                 
+                        {# <div class="form-group">
+                             <label for="cardName">Cardholder Name:</label>
+                             <input type="text" id="cardName" name="card_name">
+                         </div> #}
+                    </div>
+                </div>
+
+                <div id="paypalDetails" class="payment-details">
+                    <h4>PayPal Details</h4>
+                    <div class="form-group">
+                        <label for="paypalUsername">PayPal Username:</label>
+                        <input type="text" id="paypalUsername" name="paypal_username"> 
+                    </div>
+                </div>
+
+                <div id="bankTransferDetails" class="payment-details">
+                    <h4>Bank Transfer Details</h4>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="bankName">Bank Name:</label>
+                            <input type="text" id="bankName" name="bank_name">
+                        </div>
+                        <div class="form-group">
+                            <label for="accountHolder">Account Holder Name:</label>
+                            <input type="text" id="accountHolder" name="account_holder">
+                        </div>
+                        <div class="form-group">
+                            <label for="accountNumber">Account Number:</label>
+                            <input type="text" id="accountNumber" name="account_number">
+                        </div>
+                        <div class="form-group">
+                            <label for="iban">IBAN:</label>
+                            <input type="text" id="iban" name="iban">
+                        </div>
+                        <div class="form-group">
+                            <label for="swiftBic">SWIFT/BIC:</label>
+                            <input type="text" id="swiftBic" name="swift_bic">
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+
+            <button type="submit">Place Order</button>
+        </form>
+
+
+    </div>
+
+    <script>
+
+
+        const paymentMethodSelect = document.getElementById('paymentMethod');
+        const creditCardDetails = document.getElementById('creditCardDetails');
+        const paypalDetails = document.getElementById('paypalDetails');
+        const bankTransferDetails = document.getElementById('bankTransferDetails');
+        const fileFormatSelect = document.getElementById('fileFormat');
+        const chosenFormatInput = document.getElementById('chosenFormatInput'); 
+        const paymentForm = document.getElementById('paymentForm');
+        const loadingScreen = document.getElementById('loadingScreen');
+
+
+        function updateRequiredAttributes() {
+
+            creditCardDetails.querySelectorAll('input').forEach(input => input.removeAttribute('required'));
+            paypalDetails.querySelectorAll('input').forEach(input => input.removeAttribute('required'));
+            bankTransferDetails.querySelectorAll('input').forEach(input => input.removeAttribute('required'));
+
+            const selectedMethod = paymentMethodSelect.value;
+            if (selectedMethod === 'creditCard') {
+
+                const cardNumberInput = creditCardDetails.querySelector('#cardNumber');
+                if (cardNumberInput) cardNumberInput.setAttribute('required', true);
+                const expiryDateInput = creditCardDetails.querySelector('#expiryDate');
+                if (expiryDateInput) expiryDateInput.setAttribute('required', true);
+                const cvvInput = creditCardDetails.querySelector('#cvv');
+                if (cvvInput) cvvInput.setAttribute('required', true);
+            } else if (selectedMethod === 'paypal') {
+
+                 const paypalInput = paypalDetails.querySelector('#paypalUsername');
+                 if (paypalInput) paypalInput.setAttribute('required', true);
+            } else if (selectedMethod === 'bankTransfer') {
+
+                 const bankNameInput = bankTransferDetails.querySelector('#bankName');
+                 if (bankNameInput) bankNameInput.setAttribute('required', true);
+                 const accountHolderInput = bankTransferDetails.querySelector('#accountHolder');
+                 if (accountHolderInput) accountHolderInput.setAttribute('required', true);
+                 const accountNumberInput = bankTransferDetails.querySelector('#accountNumber');
+                 if (accountNumberInput) accountNumberInput.setAttribute('required', true);
+
+                 const ibanInput = bankTransferDetails.querySelector('#iban');
+                 if (ibanInput) ibanInput.setAttribute('required', true);
+                 const swiftBicInput = bankTransferDetails.querySelector('#swiftBic');
+                 if (swiftBicInput) swiftBicInput.setAttribute('required', true);
+            }
+        }
+
+
+        paymentMethodSelect.addEventListener('change', function() {
+
+            creditCardDetails.style.display = 'none';
+            paypalDetails.style.display = 'none';
+            bankTransferDetails.style.display = 'none';
+
+
+            const selectedMethod = this.value;
+            if (selectedMethod === 'creditCard') {
+                creditCardDetails.style.display = 'block';
+            } else if (selectedMethod === 'paypal') {
+                paypalDetails.style.display = 'block';
+            } else if (selectedMethod === 'bankTransfer') {
+                bankTransferDetails.style.display = 'block';
+            }
+
+
+            updateRequiredAttributes();
+        });
+
+        updateRequiredAttributes();
+
+        fileFormatSelect.addEventListener('change', function() {
+
+            chosenFormatInput.value = this.value;
+            console.log('Selected format:', chosenFormatInput.value); 
+        });
+
+        chosenFormatInput.value = fileFormatSelect.value;
+        console.log('Initial format:', chosenFormatInput.value); 
+
+
+        paymentForm.addEventListener('submit', function() {
+
+            if (paymentForm.checkValidity()) {
+                 loadingScreen.style.display = 'flex'; 
+            }
+
+        });
+
+
+        window.addEventListener('load', function() {
+             const orderConfirmation = document.getElementById('orderConfirmation');
+
+             if (orderConfirmation && getComputedStyle(orderConfirmation).display !== 'none') {
+                  loadingScreen.style.display = 'none';
+             }
+        });
+    </script>
+</body>
+</html>

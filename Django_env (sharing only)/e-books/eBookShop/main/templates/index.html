@@ -7,16 +7,16 @@
     {% if not is_filtered %}
     <div class="main_page_box">  
         <div class="slider">
-            <div class="slide" id="kids_stories">
-              <a href="kids_stroies.html"><button id="link_kid_stories"></button></a> 
+            <div class="slide" id="kids_stories" style="cursor: pointer;">
+              <a href="#"><button id="link_kid_stories"></button></a> 
               
             </div>
-            <div class="slide" id="foreighn_lit">
-              <a href="foreigh_lit.html"><button id="link_foreighn_lit"></button></a> 
+            <div class="slide" id="foreighn_lit" style="cursor: pointer;">
+              <a href="#"><button id="link_foreighn_lit"></button></a> 
               
             </div>
-            <div class="slide" id="school">
-              <a href="school.html"><button id="link_school"></button></a> 
+            <div class="slide" id="school" style="cursor: pointer;">
+              <a href="#"><button id="link_school"></button></a> 
 
             </div>
             
@@ -220,22 +220,38 @@
                 <div class="book-item" onclick="location.href='{% url 'product_detail' slug=product.slug id=product.id %}'">
                     <div class="book-cover">
                         <img src="{{ product.image.url }}" alt="{{ product.title }}">
-                        <button class="heart-icon" onclick="event.stopPropagation();">♡</button>
                     </div>
                     <div class="book-details">
-                        <div class="book-rating">
-                            {% for i in "12345" %}
-                                {% if forloop.counter <= 4 %}
-                                    <span class="star">★</span>
-                                {% else %}
-                                    <span class="star-empty">★</span>
-                                {% endif %}
-                            {% endfor %}
-                        </div>
-                        <h4 class="book-title">{{ product.title }}</h4>
-                        <div class="book-price">{{ product.price|floatformat:2 }} лв.</div>
-                        <button class="add-to-cart-btn" onclick="event.stopPropagation();">Add to Cart</button>
-                    </div>
+
+
+                        <div class="product-rating" data-product-id="{{ product.id }}">
+                         {% if product.average_rating is not None %}
+                             {% for i in "12345"|make_list %}
+                                 <span class="star">
+                                     {% if product.average_rating|default:0 >= forloop.counter %}
+                                         <i class="fas fa-star rated"></i>  {# Filled star #}
+                                     {% elif product.average_rating|default:0 >= forloop.counter|add:'-0.5' %}
+                                         <i class="fas fa-star-half-alt rated"></i>  {# Half star #}
+                                     {% else %}
+                                         <i class="far fa-star"></i>  {# Empty star #}
+                                     {% endif %}
+                                 </span>
+                             {% endfor %}
+                             <span class="rating-text">({{ product.average_rating|floatformat:1 }}/5)</span>
+                         {% else %}
+                             <span class="rating-text">No ratings yet.</span>
+                         {% endif %}
+                         </div>
+         
+         
+         
+         
+         
+                         <h4 class="book-title">{{ product.title }}</h4>
+                         <div class="book-price">{{ product.price|floatformat:2 }} лв.</div>
+                         
+                         <a href="{% url 'initiate_payment' product.id %}"><button class="add-to-cart-btn" onclick="event.stopPropagation();">Buy Now</button></a>
+                     </div>
                 </div>
             {% endfor %}
         </div>

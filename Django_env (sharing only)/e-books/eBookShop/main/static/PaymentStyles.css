@@ -1,0 +1,396 @@
+/* PaymentStyles.css */
+
+/* --- General Styles --- */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* More modern font */
+    background-color: #eef1f5; /* Lighter background */
+    margin: 0;
+    padding: 20px; /* Add padding around the body */
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Align items to the top, forms can be long */
+    min-height: 100vh;
+    line-height: 1.6;
+    color: #333;
+}
+
+.form-container {
+    background-color: #ffffff;
+    padding: 40px; /* Increased padding */
+    border-radius: 12px; /* Slightly more rounded corners */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* More pronounced shadow */
+    width: 100%;
+    max-width: 900px; /* Base max-width for medium/large screens */
+    margin: auto; /* Center the container */
+    box-sizing: border-box;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 40px; /* Increased margin */
+    color: #2c3e50; /* Darker heading color */
+    font-size: 2.5em; /* Larger font size */
+    font-weight: 600; /* Semi-bold */
+}
+
+h3, h4 {
+    color: #34495e; /* Slightly lighter heading color */
+    margin-top: 30px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #eee; /* Add a subtle separator */
+    padding-bottom: 5px;
+}
+
+fieldset {
+    border: 1px solid #dcdcdc; /* Subtle border for sections */
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 30px; /* Default margin-bottom */
+}
+
+legend {
+    font-size: 1.3em;
+    font-weight: bold;
+    color: #34495e;
+    padding: 0 10px;
+    margin-left: 10px;
+}
+
+/* Product Summary Box */
+.product-summary {
+    background-color: #e9f7ef; /* Light green background */
+    border: 1px solid #c3e6cb; /* Green border */
+    border-radius: 8px;
+    padding: 15px 20px; /* Padding inside the box */
+    margin-bottom: 30px; /* Space below the box */
+    display: flex; /* Use flexbox for layout */
+    justify-content: space-between; /* Space out the item and price */
+    align-items: center; /* Vertically align items */
+    flex-wrap: wrap; /* Allow wrapping on smaller widths */
+    gap: 10px; /* Gap between flex items */
+}
+
+.product-summary p {
+    margin: 0; /* Remove default paragraph margins */
+    font-size: 1.2em; /* Increased font size */
+    color: #216c2e; /* Darker green text color */
+    font-weight: 500; /* Medium weight */
+}
+
+.product-summary p strong {
+    font-weight: 700; /* Bold product details */
+    color: #155724; /* Even darker green for strong text */
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600; /* Semi-bold */
+    color: #555;
+    font-size: 1em;
+}
+
+.form-group {
+    margin-bottom: 20px; /* Add margin between form groups */
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 12px 15px; /* Adjusted padding */
+    margin-bottom: 0; /* Remove default margin-bottom as form-group handles it */
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1em;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.25); /* Softer shadow on focus */
+}
+
+button[type="submit"] {
+    display: block;
+    width: 100%;
+    padding: 14px; /* Increased padding */
+    background-color: #28a745; /* Green color for submit */
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.3em; /* Larger font size */
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 30px; /* Default margin-top */
+    box-sizing: border-box;
+}
+
+button[type="submit"]:hover {
+    background-color: #218838; /* Darker green on hover */
+}
+
+
+/* --- Grid Layout for Wider Screens (within Customer Info and Bank Transfer) --- */
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Adjusted minmax for wider fields */
+    gap: 25px; /* Increased gap */
+}
+
+/* Adjust grid for specific sections if needed */
+#creditCardDetails .form-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Slightly smaller columns for card details */
+    gap: 20px; /* Slightly smaller gap within card details grid */
+}
+
+
+/* --- Payment Details Sections (Hidden by default) --- */
+.payment-details {
+    display: none; /* Controlled by JavaScript */
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+/* --- Confirmation Message --- */
+.confirmation {
+    display: none; /* Controlled by JavaScript */
+    text-align: center;
+    margin-top: 30px;
+    color: #28a745;
+    font-weight: bold;
+    font-size: 1.4em; /* Larger font size */
+    padding: 20px;
+    border: 1px solid #28a745;
+    background-color: #d4edda; /* Light green background */
+    border-radius: 8px;
+}
+
+/* --- Loading Screen --- */
+.loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white overlay */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Ensure it's on top */
+    display: none; /* Hidden by default, shown by JS */
+    flex-direction: column;
+}
+
+.loading-content {
+    text-align: center;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.loading-content p {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Spinner animation */
+.spinner {
+    border: 5px solid #f3f3f3; /* Light grey border */
+    border-top: 5px solid #3498db; /* Blue spinner */
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite; /* Spin animation */
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+
+/* --- Compact Mode (Activates below 992px width) --- */
+@media (max-width: 992px) {
+    body {
+        padding: 15px; /* Reduce padding on smaller screens */
+        align-items: flex-start; /* Stick to top */
+    }
+
+    .form-container {
+        padding: 25px; /* Reduce container padding */
+        max-width: 100%; /* Allow container to take full width on small screens */
+        margin: 0; /* Remove margin auto */
+        box-shadow: none; /* Remove shadow in compact mode for cleaner look */
+        border-radius: 0; /* Remove border radius */
+    }
+
+    h2 {
+        font-size: 2em; /* Slightly smaller heading */
+        margin-bottom: 25px;
+    }
+
+    h3, h4 {
+        margin-top: 25px;
+        margin-bottom: 10px;
+    }
+
+    fieldset {
+        padding: 15px;
+        margin-bottom: 20px; /* Adjust margin */
+    }
+
+    legend {
+        font-size: 1.2em;
+    }
+
+    /* Product Summary Box in Compact Mode */
+    .product-summary {
+        background-color: transparent; /* Remove background */
+        border: none; /* Remove border */
+        border-radius: 0;
+        padding: 0 0 15px 0; /* Adjust padding */
+        margin-bottom: 20px; /* Adjust margin */
+        flex-direction: column; /* Stack item and price */
+        align-items: flex-start; /* Align stacked items to the left */
+        gap: 5px; /* Smaller gap when stacked */
+    }
+
+    .product-summary p {
+        font-size: 1.1em; /* Slightly smaller font in compact mode */
+        color: #333; /* Revert to default text color */
+        font-weight: normal;
+    }
+
+    .product-summary p strong {
+        color: #333; /* Revert strong text color */
+    }
+
+
+    .form-grid {
+        grid-template-columns: 1fr; /* Stack grid items in a single column */
+        gap: 0; /* Remove gap when stacked */
+    }
+
+    .form-group {
+        margin-bottom: 15px; /* Adjust margin */
+    }
+
+    input, select, textarea {
+        padding: 10px; /* Reduce input padding */
+        font-size: 1em;
+    }
+
+    button[type="submit"] {
+        padding: 12px; /* Reduce button padding */
+        font-size: 1.1em;
+        margin-top: 25px; /* Adjust margin */
+    }
+
+     .confirmation {
+        font-size: 1.2em;
+        padding: 15px;
+     }
+
+     .loading-content {
+        padding: 20px;
+     }
+
+     .loading-content p {
+        font-size: 1em;
+     }
+
+     .spinner {
+        width: 30px;
+        height: 30px;
+     }
+}
+
+/* --- Full Screen / Extra Wide Screen Adjustments (>= 1200px) --- */
+@media (min-width: 1200px) {
+    .form-container {
+        max-width: 1200px; /* Allow the container to be wider on large screens */
+        padding: 50px; /* Add more padding */
+    }
+
+    h2 {
+         font-size: 3em; /* Larger heading on very large screens */
+    }
+
+    /* Make the form itself a grid container to control fieldset layout */
+    form#paymentForm {
+        display: grid;
+        /* Define 3 columns for the second row layout */
+        /* Column widths: File Format (2 parts), Payment (1.5 parts), Special (1.5 parts) */
+        grid-template-columns: 2fr 1.5fr 1.5fr;
+        gap: 30px; /* Gap between grid items (fieldsets and button) */
+        /* Define the layout using grid areas */
+        grid-template-areas:
+            "customer customer customer" /* First row: Customer Info spans all 3 columns */
+            "fileformat payment special" /* Second row: File Format, Payment Info, Special Instructions */
+            "button button button";     /* Third row: Button spans all 3 columns */
+    }
+
+    /* Assign grid areas to the direct child fieldsets and the button */
+    /* These select the fieldsets based on their order in the HTML */
+    form#paymentForm > fieldset:nth-of-type(1) { /* Customer Information fieldset */
+         grid-area: customer;
+         margin-bottom: 0; /* Remove default margin as grid gap handles spacing */
+         padding: 25px; /* Add more padding inside the fieldset */
+    }
+
+    form#paymentForm > fieldset:nth-of-type(2) { /* File Format fieldset */
+         grid-area: fileformat; /* Placed in the second row, first column area */
+         margin-bottom: 0;
+         padding: 25px; /* Add more padding */
+    }
+
+    form#paymentForm > fieldset:nth-of-type(3) { /* Special Instructions fieldset */
+         grid-area: special; /* Placed in the second row, third column area */
+         margin-bottom: 0;
+         padding: 25px; /* Add more padding */
+         /* The width is controlled by the 1.5fr column */
+    }
+
+    form#paymentForm > fieldset:nth-of-type(4) { /* Payment Information fieldset */
+         grid-area: payment; /* Placed in the second row, second column area */
+         margin-bottom: 0;
+         padding: 25px; /* Add more padding */
+         /* The width is controlled by the 1.5fr column */
+    }
+
+    form#paymentForm > button[type="submit"] { /* Place Order Button */
+         grid-area: button; /* Placed in the third row, spanning all columns */
+         margin-top: 20px; /* Reduce top margin slightly from default 30px */
+         padding: 16px; /* Larger button padding */
+         font-size: 1.4em;
+    }
+
+    /* Adjust internal grid gaps if necessary - keeping original for now */
+    /* .form-grid { gap: 30px; } */
+    /* #creditCardDetails .form-grid { gap: 25px; } */
+
+
+    .product-summary {
+        padding: 20px 30px;
+        margin-bottom: 40px;
+    }
+
+    .product-summary p {
+        font-size: 1.3em;
+    }
+
+}

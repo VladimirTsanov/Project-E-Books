@@ -34,31 +34,14 @@ body {
   color: var(--text);
   line-height: 1.6;
 }
+a{
+  text-decoration: none;
+}
 
 main {
   max-width: var(--container-max);
   margin: 0 auto;
   padding: 1.5rem;
-}
-
-/* =========================================
-       SCROLLBAR STYLING
-       ========================================= */
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: #fae5d3;
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--primary);
-  border-radius: var(--border-radius);
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--primary-hover);
 }
 
 /* =========================================
@@ -816,6 +799,10 @@ footer{
   /* height: 10vw; */
   width: 100%;
 }
+
+
+
+
 
 
 

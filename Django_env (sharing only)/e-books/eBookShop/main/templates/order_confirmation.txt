@@ -1,0 +1,10 @@
+Thank you for your order, {{ full_name }}!
+
+Your Order ID is: {{ order.id }}
+Product: {{ order.quantity }} x {{ product.title }}
+Total: {{ order.total_price }} лв.
+
+Your purchased {{ chosen_format }} file for {{ product.title }} is attached to this email.
+
+Sincerely,
+The E-BooX Team
